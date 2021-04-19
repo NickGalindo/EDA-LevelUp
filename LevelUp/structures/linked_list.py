@@ -267,14 +267,20 @@ class LinkedList_References:
 
         return self.head.get_forward(pos, 0)
 
+    def __len__(self):
+        """
+        Return size of linked list
+        """
+        return self.size
+
     def __str__(self):
         """
         Return string representation of linked list
         """
-        return "LinkedList_References<"+str(self.head)+">"
+        return (str(self.head) if self.head else "")
 
     def __repr__(self):
         """
         Returns representation of linked list
         """
-        return "LinkedList_References<"+repr(self.head)+">"
+        return "LinkedList_References<"+(repr(self.head) if self.head else "")+">"
