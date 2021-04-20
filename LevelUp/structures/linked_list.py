@@ -154,9 +154,11 @@ class LinkedList_References:
         :param val: value to be pushed
         """
         self.size += 1
-        aux = self.tail
-        aux.next = _Node(val=val, prev=aux)
-        self.tail = aux.next
+        self.tail = _Node(val=val, prev=self.tail)
+        if self.size > 1:
+            self.tail.prev.next = self.tail
+        else:
+            self.head = self.tail
 
     def push_front(self, val: Any):
         """
@@ -164,10 +166,11 @@ class LinkedList_References:
         :param val: value to be pushed
         """
         self.size += 1
-        aux = self.head
-        self.head = _Node(val=val, next=aux)
-
-        aux.prev = self.head
+        self.head = _Node(val=val, next=self.head)
+        if self.size > 1:
+            self.head.next.prev = self.head
+        else:
+            self.tail = self.head
 
     def insert(self, val: Any, pos: int):
         """
@@ -208,6 +211,8 @@ class LinkedList_References:
         self.head = self.head.next
         if self.head:
             self.head.prev = None
+        if self.size == 0:
+            self.tail = None
 
         return aux.val
 
@@ -224,6 +229,8 @@ class LinkedList_References:
         self.tail = self.tail.prev
         if self.tail:
             self.tail.next = None
+        if self.size == 0:
+            self.head = None
 
         return aux.val
 

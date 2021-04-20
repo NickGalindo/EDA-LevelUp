@@ -28,7 +28,7 @@ class _Node():
 class Stack():
     def __init__(self):
         """
-        Constructor for queue
+        Constructor for Stack
         """
         self.head = None
         self.size = 0
