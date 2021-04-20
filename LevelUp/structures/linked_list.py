@@ -143,7 +143,7 @@ class LinkedList_References:
             self.head = _Node(val=build_list[0])
             self.size = len(build_list)
         except IndexError:
-            print("WARNING: Tried to build LinkedList_Reference from empty list!")
+            print("WARNING: Tried to build LinkedList_References from empty list!")
             return
 
         self.tail = self.head.build_from_list(build_list, 1)
