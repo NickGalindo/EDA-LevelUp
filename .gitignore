@@ -3,3 +3,4 @@
 *.swo
 *env*
 *db.sqlite*
+*.vscode
