@@ -4,6 +4,11 @@ from typing import List, Any
 class LinkedList_Array:
 
     def __init__(self, n: int):
+        """
+        Constructor
+        :param n: max capacity of linked list
+ 
+        """
 
         self.capacity = n
         self.size =0
@@ -15,13 +20,12 @@ class LinkedList_Array:
         Push an element into the back of the array
         :param val: value to be pushed
         """
-        try:
-            self.array[self.size] = val
-            self.size+=1
+        if (self.size == self.capacity):
+            raise IndexError("Capacity of LinkedList_array has been exceeded")
 
-        except IndexError:
-            print("WARNING: Full array")
-            return
+        self.array[self.size] = val
+        self.size+=1
+
     
     def push_front(self, val : Any):
         """
@@ -30,8 +34,7 @@ class LinkedList_Array:
         """
 
         if (self.size == self.capacity):
-            print("WARNING: Full array")
-            return
+           raise IndexError("Capacity of LinkedList_Array has been exceeded")
 
         for i in range (self.size,0,-1):
             self.array[i] = self.array[i-1]
@@ -48,11 +51,12 @@ class LinkedList_Array:
         """
         
         if self.size == self.capacity:
-            raise Exception('full array')
+            raise IndexError("Passed position is out of bounds for Array insertion")
+
 
         if pos > self.size or pos < 0:
             raise IndexError("Passed position is out of bounds for Array insertion")
-            return
+            
         
         if pos == 0:
             self.push_front(val)
@@ -75,7 +79,7 @@ class LinkedList_Array:
         aux = self.array[0]
         if self.array[0] == None:
             raise IndexError("Cannot pop an empty array")
-            return 
+             
 
         for i in range(1,self.size,1):
             self.array[i-1] = self.array[i]
@@ -90,7 +94,7 @@ class LinkedList_Array:
         """
         if self.array[0] == None:
             raise IndexError("Cannot pop an empty array")
-            return 
+             
         
         self.size -=1
         aux = self.array[self.size]
@@ -106,11 +110,11 @@ class LinkedList_Array:
 
         if self.array[0] == None:
             raise IndexError("Cannot pop an empty array")
-            return 
+            
         
         if (pos>=self.size):
             raise IndexError("Passed position is out of bounds of array")
-            return  
+             
 
         if pos == 0:
             self.pop_front()
@@ -135,7 +139,7 @@ class LinkedList_Array:
         """
         if pos >= self.size or pos < 0:
             raise IndexError("Passed position is out of bounds of the Array")
-            return
+
         
         return self.array[pos]
 
@@ -145,6 +149,11 @@ class LinkedList_Array:
         """
         return (str(self.array))
 
+    def __repr__(self):
+        """
+        Returns representation of linked list array
+        """
+        return "LinkedList_Array"+(repr(self.array))
 
 
 
