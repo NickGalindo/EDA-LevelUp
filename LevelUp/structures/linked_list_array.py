@@ -50,8 +50,8 @@ class LinkedList_Array:
         if self.size == self.capacity:
             raise Exception('full array')
 
-        if pos >= self.size or pos < 0:
-            raise IndexError("Passed position is out of bounds for LinkedList insertion")
+        if pos > self.size or pos < 0:
+            raise IndexError("Passed position is out of bounds for Array insertion")
             return
         
         if pos == 0:
@@ -115,7 +115,7 @@ class LinkedList_Array:
         if pos == 0:
             self.pop_front()
         
-        if pos == self.size-1:
+        elif pos == self.size-1:
             self.pop_back()
         
         else:
