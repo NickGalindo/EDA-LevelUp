@@ -85,7 +85,6 @@ class LinkedList_Array:
             self.array[i-1] = self.array[i]
         
         self.size -=1
-        self.array[self.size] = None
         return aux
 
     def pop_back(self):
@@ -98,7 +97,7 @@ class LinkedList_Array:
         
         self.size -=1
         aux = self.array[self.size]
-        self.array[self.size] = None
+        
         
         return aux
 
@@ -129,7 +128,7 @@ class LinkedList_Array:
                 self.array[i-1] = self.array[i]
 
             self.size -= 1
-            self.array[self.size] = None
+            
             return aux
     
     def get(self, pos : int):
