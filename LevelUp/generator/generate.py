@@ -120,16 +120,16 @@ def createSpecialUsers():
     data_file = open("generator/data.json",)
     data = json.load(data_file)
 
-    big_daddy = User.objects.create_user(username="big_daddy", password="default_123")
-    big_momma = User.objects.create_user(username="big_momma", password="default_123")
+    #big_daddy = User.objects.create_user(username="big_daddy", password="default_123")
+    #big_momma = User.objects.create_user(username="big_momma", password="default_123")
 
     big_daddy_data = {
-        "_id": big_daddy.id,
+        #"_id": big_daddy.id,
         "username": "big_daddy",
         "workouts": []
     }
     big_momma_data = {
-        "_id": big_momma.id,
+        #"_id": big_momma.id,
         "username": "big_momma",
         "workouts": []
     }
@@ -138,7 +138,7 @@ def createSpecialUsers():
     end_date = datetime.date(2021, 4, 24)
     date_diff = (end_date-start_date).days
 
-    for i in range(100000000):
+    for i in range(1000000):
         temp_daddy_data = {"date": start_date+datetime.timedelta(days=random.randrange(date_diff)), "exercises": []}
         temp_momma_data = {"date": start_date+datetime.timedelta(days=random.randrange(date_diff)), "exercises": []}
 
@@ -166,12 +166,14 @@ def createSpecialUsers():
         if i%10000:
             print("batch", i)
 
+    return {"big_daddy_data": big_daddy_data, "big_momma_data":big_momma_data}
+
+    """
     mongo_client = pymongo.MongoClient('localhost', 27017)
     db = mongo_client["EDA-Project"]
     app_data = db["app_data"]
     col = db["user_data"]
 
-    """
     print("Insertando usuarios e info a base de datos... porfavor esperar")
     col.insert_many([big_daddy_data, big_momma_data])
 
