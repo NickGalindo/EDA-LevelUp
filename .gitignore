@@ -3,3 +3,6 @@
 *.swo
 *env*
 *db.sqlite*
+dummy_word.txt
+*.out
+*.inp
