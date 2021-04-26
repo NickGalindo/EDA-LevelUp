@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from generator.generate import createUsers, createSpecialUsers, specialUsersExist, usersExist
+from generator.pyramid_stack import generate_workout
 from typing import List, Dict, Any
 
 # Create your views here.
@@ -27,3 +28,24 @@ def login(request: Any):
 
 
     return render(request=request, template_name='login/login.html', context=context)
+
+
+
+def pyramid(request :Any):
+
+    context = {'title': 'pyramidWorkout', 'status':'Initial'}
+
+    n = int(input("how many exercices?"))
+    generate_workout(n)
+
+
+
+    return render(request=request, template_name='basetemplate.html', context=context)
+
+
+
+
+
+
+
+
