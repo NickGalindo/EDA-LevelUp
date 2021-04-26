@@ -2,6 +2,8 @@ from django.shortcuts import render
 from generator.generate import createUsers, createSpecialUsers, specialUsersExist, usersExist
 from typing import List, Dict, Any
 
+from generator.generate_stack import generate_stack
+
 # Create your views here.
 
 
