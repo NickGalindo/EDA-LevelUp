@@ -105,6 +105,15 @@ extern "C" {
   int decouple_pair_first(pair<int, int>* val){ return val->first; }
   int decouple_pair_second(pair<int, int>* val){ return val->second; }
   pair<int, int>* encouple_pair(int a, int b){ return new pair<int, int>(a, b); }
+  void delete_linkedlist(LinkedList<pair<int, int> >* a){
+    delete a;
+    a = 0;
+  }
+  void delete_pair(pair<int, int>* val){
+    delete val;
+    val = 0;
+  }
+  int linkedlist_size(LinkedList<pair<int, int> >* a){ return a->size; }
 }
 
 int main(){

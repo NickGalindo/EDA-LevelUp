@@ -1,0 +1,17 @@
+{% extends 'basetemplate.html' %}
+{% block content %}
+<br>
+<legend class="border-bottom mb-4">Log In</legend>
+<div class="content-section">
+  {% if status == "Success" %}
+    <div class = "alert alert-success" role="alert">
+      Volume Protocol Trialed successfully
+    </div>
+  {% endif %}
+  {% if status == "Failed" %}
+    <div class = "alert alert-danger" role="alert">
+      Volume Protocol Trial Failed
+    </div>
+  {% endif %}
+</div>
+{% endblock content %}
