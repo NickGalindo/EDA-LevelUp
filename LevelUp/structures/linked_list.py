@@ -234,7 +234,7 @@ class LinkedList_References:
 
         return aux.val
 
-    def remove(self, pos):
+    def remove(self, pos: int):
         """
         Remove the element in position from linked list and returns its value
         :param pos: position of element to remove
