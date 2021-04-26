@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from generator.generate import createUsers, createSpecialUsers, specialUsersExist, usersExist
 from generator.queue_365 import queue_workouts
+from generator.pyramid_stack import generate_workout
 from typing import List, Dict, Any
 
 # Create your views here.
@@ -29,6 +30,7 @@ def login(request: Any):
 
     return render(request=request, template_name='login/login.html', context=context)
 
+
 def queue_365(request : Any):
 
     context = {'title': 'queue_365', 'status':'Initial'}
@@ -43,8 +45,13 @@ def queue_365(request : Any):
     else:
         queue_workouts(option, n)
 
+
+def pyramid(request :Any):
+
+    context = {'title': 'pyramidWorkout', 'status':'Initial'}
+
+    n = int(input("how many exercices?"))
+    generate_workout(n)
+
     return render(request=request, template_name='basetemplate.html', context=context)
-
-
-
 
