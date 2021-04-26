@@ -15,40 +15,23 @@ public:
     //Node consturctor
     //:param v: value of node
     val = v;
+    next = prev = 0;
     return;
   }
 
-  void insert(T v, int cur, int pos){
+  void insert(T v){
     //insert into linked_list
     //:param v: value to be inserted
-    //:param cur: current position in linked_list
-    //:param pos: position in linked_list to be inserted
-    if(pos == cur){
-      prev = prev->next = new Node<T>(v);
-      return;
-    }
-
-    next->insert(v, cur+1, pos);
+    prev = prev->next = new Node<T>(v);
     return;
   }
-  void remove(int cur, int pos){
+
+  void remove(){
     //remove from linked_list
-    if(pos == cur){
-      prev->next = next;
-      next->prev = prev;
-      delete this;
-      return;
-    }
-
-    next->remove(cur+1, pos);
+    prev->next = next;
+    next->prev = prev;
+    delete this;
     return;
-  }
-  T get(int cur, int pos){
-    //get an element from the linked_list
-    //:param cur: the current position in linked_list
-    //:param pos: the position to return in linked_list
-    if(cur == pos) return val;
-    return next->get(cur+1, pos);
   }
 };
 
@@ -143,7 +126,15 @@ public:
       return;
     }
 
-    head->insert(v, 0, pos);
+    Node<T> *tmp = this->head;
+    int cur = 0;
+    while(tmp){
+      if(cur == pos) break;
+      tmp = tmp->next;
+      cur++;
+    }
+
+    tmp->insert(v);
     this->size++;
     return;
   }
@@ -161,7 +152,16 @@ public:
       return;
     }
 
-    head->remove(0, pos);
+    Node<T> *tmp = this->head;
+    int cur = 0;
+    while(tmp){
+      if(cur == pos) break;
+      tmp = tmp->next;
+      cur++;
+    }
+
+    tmp->remove();
+    this->size--;
     return;
   }
   T get(int pos){
@@ -169,7 +169,15 @@ public:
     //:param pos: the position to get
     if(pos < 0 || pos >= this->size) throw std::invalid_argument("Cannot get outside of linked list range");
 
-    return head->get(0, pos);
+    Node<T> *tmp = this->head;
+    int cur = 0;
+    while(tmp){
+      if(cur == pos) break;
+      tmp = tmp->next;
+      cur++;
+    }
+
+    return tmp->val;
   }
 };
 

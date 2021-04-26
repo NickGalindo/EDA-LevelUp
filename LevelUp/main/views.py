@@ -24,9 +24,10 @@ def login(request: Any):
         """
 
 
-    if not specialUsersExist():
+    """if not specialUsersExist():
         createSpecialUsers()
         context["status"] = "Success"
+    """
 
 
     return render(request=request, template_name='login/login.html', context=context)
@@ -47,11 +48,11 @@ def volume(request: Any):
 def queue_365(request : Any):
 
     context = {'title': 'queue_365', 'status':'Initial'}
-    
-    
+
+
     option = int(input(" \n 0. Array implementation \n 1. References implementation \n"))
     n = int(input("How many days?: "))
-    
+
     if ( option not in [1,0] or n<=0):
         print("Please, check the data!")
 
@@ -67,4 +68,3 @@ def pyramid(request :Any):
     generate_workout(n)
 
     return render(request=request, template_name='basetemplate.html', context=context)
-

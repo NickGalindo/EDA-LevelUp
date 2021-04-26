@@ -20,6 +20,7 @@ LinkedList_Ref<pair<int, int> >* createVolume_ref(int load_size){
 
     if(i % 10000 == 0) printf("Batch %d\n", i);
   }
+
   return a;
 }
 
@@ -28,7 +29,7 @@ LinkedList_Array<pair<int, int> >* createVolume_arr(int load_size){
   //:param load_size: The load size to be generated
   srand(time(0));
 
-  LinkedList_Array<pair<int, int>>* a = new LinkedList_Array<pair<int, int>>();
+  LinkedList_Array<pair<int, int>>* a = new LinkedList_Array<pair<int, int>>(load_size);
   for(int i = 0; i < load_size; i++){
     a->push_back(make_pair(i, 10+rand()%200));
 
@@ -118,11 +119,9 @@ extern "C" {
 
 int main(){
 
-  LinkedList<pair<int, int> >* tt = createVolume_arr(10000);
-  pair<int, int> *aux = get(tt, 4);
-  cout << aux->first << " " << aux->second << endl;
-  push_back(tt, new pair<int, int> (44, 88));
-  aux = get(tt, tt->size-1);
+  LinkedList<pair<int, int> >* tt = createVolume_ref(100000000);
+  pair<int, int> *aux;
+  aux = get(tt, 9999999);
   cout << aux->first << " " << aux->second << endl;
 
 
