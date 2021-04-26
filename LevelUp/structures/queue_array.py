@@ -47,7 +47,6 @@ class Queue_Array:
     """
     return self.count <= 0
 
-
   def isFull(self):
     '''
     Return true if the queue is full
@@ -58,31 +57,31 @@ class Queue_Array:
     """
       Get the first element in the queue
     """
-    if self.size == 0:
-      raise IndexError("Queueu is empty, cannot get front element")
+    if self.count == 0:
+      raise IndexError("Queue is empty, cannot get front element")
 
     return self.arr[self.front]
 
-  def enqueue(self, val:Any):
+  def push(self, val:Any):
     '''
     Insert element at the end of the queue
     :param val: value to be insert in the queue
     '''
     if self.isFull():
       raise IndexError("Cannot enqueue in a full queue")
-    else:
-      self.count = self.count + 1
-      self.arr[self.rear] = val
-      self.rear = (self.rear+1) % self.size
 
-  def dequeue (self):
+    self.count = self.count + 1
+    self.arr[self.rear] = val
+    self.rear = (self.rear+1) % self.size
+
+  def pop(self):
     '''
     Remove the first element in the queue array
     '''
     if self.isEmpty():
-      raise IndexError("Cannot enqueue in a full queue")
-    else:
-      item = self.arr[self.front]
-      self.front = (self.front + 1) % self.size
-      self.count -= 1
+      raise IndexError("Cannot dequeue in a empty queue")
+
+    item = self.arr[self.front]
+    self.front = (self.front + 1) % self.size
+    self.count -= 1
     return item
