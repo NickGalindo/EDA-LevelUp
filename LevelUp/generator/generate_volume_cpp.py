@@ -1,3 +1,4 @@
+import time
 from ctypes import cdll, c_longlong, c_int
 
 run = cdll.LoadLibrary("structures_cpp/libmain.so")
@@ -27,12 +28,15 @@ def runVolumeProtocol():
         return False
 
     linked_list = None
+
+    start_time = time.perf_counter()
     if TP == 1:
         linked_list = run.createVolume_ref_py(N)
     else:
         linked_list = run.createVolume_arr_py(N)
+    end_time = time.perf_counter()
 
-    print("Data generated")
+    print(f"Data generated in linked_list in {end_time-start_time:0.4f} seconds")
 
     stay = True
 
@@ -60,11 +64,15 @@ def runVolumeProtocol():
                 print("Invalid input, please try again")
                 continue
 
+            start_time = time.perf_counter()
             ret_pair_pp = run.get_py(linked_list, QUERY)
+            end_time = time.perf_counter()
+
             first_val = run.decouple_pair_first(ret_pair_pp)
             second_val = run.decouple_pair_second(ret_pair_pp)
             print("Workout_id:", first_val, end=" ")
             print("Volume:", second_val)
+            print(f"Get operation finished in {end_time-start_time:0.4f} seconds")
             continue
 
         if OP == 2:
@@ -76,8 +84,13 @@ def runVolumeProtocol():
                 continue
 
             coupled_pair = run.encouple_pair(QUERY_ID, QUERY_VOL)
+
+            start_time = time.perf_counter()
             run.push_back_py(linked_list, coupled_pair)
+            end_time = time.perf_counter()
+
             print("Workout_id, Volume added successfully")
+            print(f"Push_back operation finished in {end_time-start_time:0.4f} seconds")
             continue
 
         if OP == 3:
@@ -89,8 +102,11 @@ def runVolumeProtocol():
                 print("Invalid input, please try again")
                 continue
 
+            start_time = time.perf_counter()
             run.remove_py(linked_list, QUERY)
-            print("Removed successfully")
+            end_time = time.perf_counter()
+
+            print(f"Remove operation finished in {end_time-start_time:0.4f} seconds")
             continue
 
     run.delete_linkedlist(linked_list)
