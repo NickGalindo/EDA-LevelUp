@@ -3,6 +3,7 @@
 *.swo
 *env*
 *db.sqlite*
+*.vscode
 dummy_word.txt
 *.out
 *.inp
