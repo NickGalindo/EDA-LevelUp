@@ -59,6 +59,8 @@ def queue_365(request : Any):
     else:
         queue_workouts(option, n)
 
+    return render(request=request, template_name='basetemplate.html', context=context)
+
 
 def pyramid(request :Any):
 
