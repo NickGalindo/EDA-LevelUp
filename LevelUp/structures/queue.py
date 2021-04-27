@@ -39,7 +39,7 @@ class Queue:
         :param val: The value to be pushed
         """
         if self.size == 0:
-            self.head = _Node(val)
+            self.head = _Node(val=val)
             self.tail = self.head
             self.size += 1
             return
