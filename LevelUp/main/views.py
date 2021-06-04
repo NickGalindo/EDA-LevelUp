@@ -1,11 +1,40 @@
+from typing import List, Dict, Any
+import subprocess
 from django.shortcuts import render
+from django.contrib.auth.models import User
+from django.contrib import auth
+
 from generator.generate import createUsers, createSpecialUsers, specialUsersExist, usersExist
 from generator.queue_365 import queue_workouts
 from generator.pyramid_stack import generate_workout
-from typing import List, Dict, Any
-import subprocess
 
+from . import forms
 # Create your views here.
+
+#registration site
+def sign_up(request: Any):
+    """
+    View for sign up site
+    :param request: The request passed in by the webview
+    """
+    context = {'title': 'Sign Up'}
+    status = 'InitRegistration'
+    form = None
+
+    if request.method == 'POST':
+        form = forms.signup_form(request.POST, error_class=forms.CustomError)
+
+        if form.is_valid():
+            data = form.cleaned_data
+            user = User.objects.create_user(data["username"], data["email"], data["password"])
+            user.save()
+            auth.login(request, user)
+    else:
+        form = forms.signup_form(error_class=forms.CustomError)
+
+    context['form'] = form
+    context['status'] = status
+    return render(request=request, template_name='authentication/signup.html', context=context)
 
 
 # login Site
@@ -15,22 +44,27 @@ def login(request: Any):
     :param request: The request passed in by the webview
     """
 
-    context = {'title': 'Login', 'status':'Initial'}
+    context = {'title': 'Login'}
+    status = 'InitLogin'
+    form = None
 
-    """
-    if not usersExist():
-        createUsers()
-        context["status"] = "Success"
-        """
+    if request.method == 'POST':
+        form = forms.login_form(request.POST)
 
+        if form.is_valid():
+            data = form.cleaned_data
+            user = auth.authenticate(request, username=data["username"], password=data["password"])
 
-    """if not specialUsersExist():
-        createSpecialUsers()
-        context["status"] = "Success"
-    """
+            if user is not None:
+                auth.login(request, user)
+            else:
+                status = 'LoginFail'
+    else:
+        form = forms.signup_form()
 
-
-    return render(request=request, template_name='login/login.html', context=context)
+    context['status'] = status
+    context['form'] = form
+    return render(request=request, template_name='authentication/login.html', context=context)
 
 
 def volume(request: Any):

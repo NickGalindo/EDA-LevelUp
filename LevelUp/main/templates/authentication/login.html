@@ -1,0 +1,45 @@
+{% extends 'basetemplate.html' %}
+{% block content %}
+<br>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-xl-6">
+      <legend class="border-bottom mb-4">Log In</legend>
+      {% if status == "LoginFail" %}
+        <div class="alert alert-danger">
+          Invalid <b>Username</b> or <b>Password</b>!
+        </div>
+      {% endif %}
+      <div class="content-section">
+          <form method="POST" action="">
+            {% csrf_token %}
+            <div class="form-group">
+              <label class="control-label" for="{{ form.username.id_for_label }}">
+                Username
+              </label>
+              {{ form.username.errors }}
+              <div class="input-group">
+                <div class="input-group-text">
+                  <i class="fas fa-user" style="color:#7C2DAD"></i>
+                </div>
+                {{ form.username }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label" for="{{ form.password.id_for_label }}">
+                Password
+              </label>
+              <div class="input-group">
+                <div class="input-group-text">
+                  <i class="fas fa-lock" style="color:#7C2DAD"></i>
+                </div>
+                {{ form.password }}
+              </div>
+            </div>
+            <input style="background-color:#7C2DAD" class="btn btn-primary" type="submit" value="Sign Up">
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
