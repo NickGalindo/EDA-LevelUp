@@ -85,7 +85,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary py-2">
       <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'login' %}">LevelUp</a>
+        <a class="navbar-brand" href="{% url 'authentication:login' %}">LevelUp</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
@@ -101,8 +101,8 @@
                 </div>
               </div>
           </ul>
-          <a class="btn btn-secondary mr-1 py-1 px-4" href="{% url 'login' %}">Login</a>
-          <a class="btn btn-secondary mr-1 py-1 px-4" href="{% url 'sign up' %}">Sign Up</a>
+          <a class="btn btn-secondary mr-1 py-1 px-4" href="{% url 'authentication:login' %}">Login</a>
+          <a class="btn btn-secondary mr-1 py-1 px-4" href="{% url 'authentication:sign up' %}">Sign Up</a>
         </div>
       </div>
     </nav>

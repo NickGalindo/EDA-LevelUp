@@ -13,13 +13,12 @@ def queue_workouts(option : int, n : int = 0):
 
     data_file = open("generator/data.json")
     data = json.load(data_file)
-    b="yes"
 
-    start =  time.perf_counter() 
+    start =  time.perf_counter()
 
     if option: #queue_array
         queue = Queue_Array(n)
-        
+
         for i in range(n):
             exercise = random.choice(data["random_exercises"])
 
@@ -27,8 +26,8 @@ def queue_workouts(option : int, n : int = 0):
 
             if(i%10000 == 0):
                 print("batch",i)
-            
-    
+
+
 
     else: #queue_references
         queue = Queue()
@@ -46,41 +45,35 @@ def queue_workouts(option : int, n : int = 0):
     print(f"Push {n} elements took {end-start:0.4f} seconds")
 
     print()
-    
-    while(b=="yes"):
 
+    while True:
         b = input(" \n Have you exercised?: yes/no \n")
-        
+
         if(b=="yes"):
-            n = days = int(input("How many days?\n"))
-            start =  time.perf_counter() 
-            
+            try:
+                n = days = int(input("How many days?\n"))
+            except ValueError as e:
+                print("Invalid Data")
+                continue
+
+            start =  time.perf_counter()
+
             while(days):
-                queue.pop()
+                try:
+                    queue.pop()
+                except IndexError as e:
+                    print("All of queue popped, queue now empty!")
+                    break
                 days -=1
-            
+
             end = time.perf_counter()
-            print(f"Pop {n} elements took {end-start:0.4f} seconds \n")
-
-
+            print(f"Pop {n-days} elements took {end-start:0.4f} seconds \n")
 
         elif b=="no":
             exit = input("Exit ? yes/no \n")
             if exit =="yes":
                 break
-        
+            if exit != "no":
+                print("Invalid data")
         else:
             print("Invalid data")
-
-
-
-
-
-
-
-
-
-        
-
-
-
