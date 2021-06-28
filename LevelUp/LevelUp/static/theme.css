@@ -1,0 +1,127 @@
+/*
+Themed css for necessary themed items in html
+*/
+
+/* dropdown menu in css */
+body{
+  padding-top: 88px;
+}
+
+.column {
+    float: left;
+}
+
+.left {
+    width: 50%;
+}
+
+.right {
+    width: 50%;
+}
+/* Dropdown Button */
+.dropbtn {
+  background-color: transparent;
+  color: white;
+  padding: 0px;
+  font-size: 16px;
+  border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: #343A40;}
+
+
+/* Code for buttons with specified theme */
+/* button outlined primary theme */
+.btn-outline-themed-primary {
+  color: #7C2DAD;
+  border-color: #7C2DAD;
+}
+.btn-outline-themed-primary:hover {
+  color: #fff;
+  border-color: #7C2DAD;
+  background-color: #7C2DAD;
+}
+.btn-check:focus + .btn-outline-themed-primary, .btn-outline-themed-primary:focus {
+  box-shadow: 0 0 0 0.25rem rgba(26, 26, 26, 0.5);
+}
+.btn-check:checked + .btn-outline-themed-primary,
+.btn-check:active + .btn-outline-themed-primary, .btn-outline-themed-primary:active, .btn-outline-themed-primary.active, .btn-outline-themed-primary.dropdown-toggle.show {
+  color: #fff;
+  background-color: #7C2DAD;
+  border-color: #7C2DAD;
+}
+.btn-check:checked + .btn-outline-themed-primary:focus,
+.btn-check:active + .btn-outline-themed-primary:focus, .btn-outline-themed-primary:active:focus, .btn-outline-themed-primary.active:focus, .btn-outline-themed-primary.dropdown-toggle.show:focus {
+  box-shadow: 0 0 0 0.25rem rgba(26, 26, 26, 0.5);
+}
+.btn-outline-themed-primary:disabled, .btn-outline-themed-primary.disabled {
+  color: #7C2DAD;
+  background-color: transparent;
+}
+
+
+/* button primary themed */
+.btn-themed-primary {
+  color: #fff;
+  background-color: #7C2DAD;
+  border-color: #7C2DAD;
+}
+.btn-themed-primary:hover {
+  color: #fff;
+  background-color: #7C2DAD;
+  border-color: #7C2DAD;
+}
+.btn-check:focus + .btn-themed-primary, .btn-themed-primary:focus {
+  color: #fff;
+  background-color: #7C2DAD;
+  border-color: #7C2DAD;
+  box-shadow: 0 0 0 0.25rem rgba(60, 60, 60, 0.5);
+}
+.btn-check:checked + .btn-themed-primary,
+.btn-check:active + .btn-themed-primary, .btn-themed-primary:active, .btn-themed-primary.active,
+.show > .btn-themed-primary.dropdown-toggle {
+  color: #fff;
+  background-color: #7C2DAD;
+  border-color: #7C2DAD;
+}
+.btn-check:checked + .btn-themed-primary:focus,
+.btn-check:active + .btn-themed-primary:focus, .btn-themed-primary:active:focus, .btn-themed-primary.active:focus,
+.show > .btn-themed-primary.dropdown-toggle:focus {
+  box-shadow: 0 0 0 0.25rem rgba(60, 60, 60, 0.5);
+}
+.btn-themed-primary:disabled, .btn-themed-primary.disabled {
+  color: #fff;
+  background-color: #1a1a1a;
+  border-color: #1a1a1a;
+}

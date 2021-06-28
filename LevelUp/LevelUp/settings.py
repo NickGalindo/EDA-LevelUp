@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
     'LevelUp.apps.authentication',
     'LevelUp.apps.trials'
 ]
@@ -122,7 +122,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-LOGIN_URL = 'auth/login'
+LOGIN_URL = 'authentication:login'
 
 
 # Static files (CSS, JavaScript, Images)

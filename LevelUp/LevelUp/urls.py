@@ -15,9 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.shortcuts import redirect
+
+from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.home, name="home"),
     path('auth/', include('LevelUp.apps.authentication.urls', namespace='authentication')),
-    path('trials/', include('LevelUp.apps.trials.urls', namespace='trials'))
+    path('trials/', include('LevelUp.apps.trials.urls', namespace='trials')),
+    path('users/', include('LevelUp.apps.userprofiles.urls', namespace='userprofiles')),
 ]

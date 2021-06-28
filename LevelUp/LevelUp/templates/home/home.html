@@ -1,0 +1,46 @@
+{% extends 'basetemplate.html' %}
+{% load static %}
+
+{% block style %}
+body {
+  padding-top: 0px;
+}
+{% endblock style %}
+
+{% block content %}
+
+<div class="p-5 text-center bg-image" style="background-image: url('{% static 'images/home/person_doing_deadlift.jpg' %}'); background-size: cover; height: 100vh;">
+  <div class="container d-flex h-100">
+    <div class="col justify-content-center align-self-center pt-4 pb-4" style="background-color: rgba(0, 0, 0, 0.6);">
+      <div class="row justify-content-center align-self-center">
+        <div class="col">
+          <h1 class="text-white mb-3">Take it to the next Level</h1>
+          <h4 class="text-white mb-3"><em>Sometimes A Workout Is All The Therapy You Need.</em></h4>
+          <a class="btn btn-outline-light btn-md" href="{% url 'authentication:sign up' %}" role="button">Sign Up Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container" style="height: calc(100vh - 70px);">
+  <div class="d-flex flex-column h-100">
+    <div class="d-flex align-items-left w-100">
+      <legend class="border-bottom border-primary mt-4 mb-4"><h1 class="display-3 text-primary">How it Works</h1></legend>
+    </div>
+    <div class="d-flex flex-grow-1 align-items-center">
+      <div class="col">
+        <img src="{% static 'images/home/example_graph.png' %}" alt="Graph Image" style="width: 512px; height: 384px;">
+      </div>
+      <div class="col">
+        <h1 class="text-center"> LOREM IPSUM  </h1>
+        <p class="lead">
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
