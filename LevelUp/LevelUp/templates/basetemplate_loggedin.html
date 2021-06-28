@@ -19,7 +19,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;600&family=Roboto:wght@100;500&display=swap" rel="stylesheet">
     <link href="{% static 'bootstrap.css' %}?76667676" type="text/css" rel="stylesheet">
-    <link href="{% static 'theme.css' %}?6733778" type="text/css" rel="stylesheet">
+    <link href="{% static 'theme.css' %}?67780212378" type="text/css" rel="stylesheet">
 
     <script src="https://kit.fontawesome.com/211962e7dd.js" crossorigin="anonymous" async></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous" async></script>
@@ -58,7 +58,7 @@
           <div class="d-flex">
             <div class="btn-group" role="group" aria-label="User Profile button dropdown">
               <div class="btn-group" role="group">
-                <button id="btnGroupDrop1" type="button" class="btn btn-themed-primary dropdown-toggle pt-2 pb-2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-lg"></i> </button>
+                <button id="btnGroupDrop1" type="button" class="btn btn-themed-outline-light dropdown-toggle pt-2 pb-2" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border-color: #1a1a1a !important"><i class="fas fa-user fa-lg"></i> {{ user.username }}</button>
                 <div class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="btnGroupDrop1">
                   <a class="dropdown-item" href="{% url 'userprofiles:profile' %}">Profile</a>
                   <a class="dropdown-item" href="{% url 'authentication:logout' %}">Logout</a>

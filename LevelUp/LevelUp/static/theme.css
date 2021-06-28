@@ -125,3 +125,37 @@ body{
   background-color: #1a1a1a;
   border-color: #1a1a1a;
 }
+
+/* special button for user */
+.btn-themed-outline-light {
+  color: #fff;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.btn-themed-outline-light:hover {
+  color: #fff;
+  background-color: #7C2DAD;
+  border-color: #7C2DAD;
+}
+
+.btn-check:focus + .btn-themed-outline-light, .btn-themed-outline-light:focus {
+  box-shadow: transparent;
+}
+
+.btn-check:checked + .btn-themed-outline-light,
+.btn-check:active + .btn-themed-outline-light, .btn-themed-outline-light:active, .btn-themed-outline-light.active, .btn-themed-outline-light.dropdown-toggle.show {
+  color: #fff;
+  background-color: #7C2DAD;
+  border-color: #7C2DAD;
+}
+
+.btn-check:checked + .btn-themed-outline-light:focus,
+.btn-check:active + .btn-themed-outline-light:focus, .btn-themed-outline-light:active:focus, .btn-themed-outline-light.active:focus, .btn-themed-outline-light.dropdown-toggle.show:focus {
+  box-shadow: transparent;
+}
+
+.btn-themed-outline-light:disabled, .btn-themed-outline-light.disabled {
+  color: #fff;
+  background-color: transparent;
+}
