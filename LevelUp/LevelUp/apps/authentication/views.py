@@ -88,3 +88,15 @@ def login(request: Any):
     context['status'] = status
     context['form'] = form
     return render(request=request, template_name='authentication/login.html', context=context)
+
+#logout site
+def logout(request: Any):
+    """
+    View to log user oout
+    :param request: The request passed in by the webview
+    """
+
+    if request.user.is_authenticated:
+        auth.logout(request)
+
+    return redirect("home")
