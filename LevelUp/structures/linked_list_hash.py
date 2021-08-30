@@ -4,11 +4,17 @@ import  linked_list
 
 
 class NodeHash(linked_list._Node):
-    def __init__(self, val: Any=None, next: Any=None, prev: Any=None ,key : Any=None):
+    def __init__(self, key : Any=None, val: Any=None, next: Any=None, prev: Any=None):
         self.val = val
         self.next = next
         self.prev = prev
         self.key = key
+    
+    def __str__(self):
+        """
+        Return string representation of linked list
+        """
+        return str(self.key)+((", "+str(self.next))  if self.next else "")
 
 
 

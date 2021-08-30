@@ -6,15 +6,25 @@ import linked_list_hash
 class HashTable:
 
     def __init__(self, n  :int):
-        
-        self.A =  [linked_list_hash.LinkedList_References()]*n
+        self.n = n
+        self.A =  [None]*self.n
+        for i in range (n):
+            self.A[i] = linked_list_hash.LinkedList_References()
         
 
-    def hashFunc(self, val : any):
-        return 2
+    def PolyHash(self, val : any, x : int=1234, p : int=9973,a : int=9456, b :int=7689):
+        hash =0
+        for i in range(len(val)-1,0,-1):
+            hash = (hash*x + ord(val[i])) % p
+
+        hash = ((a*hash + b)%p)%self.n
+        
+        return hash 
+        
+
 
     def hasKey(self, key : any):
-        l = self.A[self.hashFunc(key)]
+        l = self.A[self.PolyHash(key)]
         curr = l.head
         while curr:
             if curr.key == key:
@@ -26,7 +36,7 @@ class HashTable:
  
 
     def get(self, key : any):
-        l = self.A[self.hashFunc(key)]
+        l = self.A[self.PolyHash(key)]
         curr = l.head
         while curr:
             if curr.key == key:
@@ -40,23 +50,21 @@ class HashTable:
 
     def set(self,key,new_val):
 
-        l = self.A[self.hashFunc(key)]
+        l = self.A[self.PolyHash(key)]
         curr = l.head
         while curr:
             if curr.key == key:
-                curr.value = new_val
+                curr.val = new_val
                 return
             curr = curr.next
-        l.push_back(key,new_val)
+        l.push_front(key,new_val)
 
 
  
  
-h = HashTable(3)
-h.set("holaaa",500)
-h.set("buenas",150)
-h.set("tardes",200)
 
-print(h.A[2])
+
+
+
 
 
