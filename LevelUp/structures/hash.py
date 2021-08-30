@@ -60,10 +60,20 @@ class HashTable:
         l.push_front(key,new_val)
 
 
- 
- 
+""" 
+h = HashTable(10)
 
+h.set("uinununybu",121212)
+h.set("uvyppopopoguhbkh",121212)
+h.set("ghndfgndcn",121212)
+h.set("fgdgdn",121212)
+h.set("jtfryjvyhj",121212)
+h.set("inyhfvkc",121212)
+h.set("ytukunhif",121212)
 
+for i in h.A:
+    print(i)
+"""
 
 
 
