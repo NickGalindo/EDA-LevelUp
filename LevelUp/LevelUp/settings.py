@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'LevelUp.apps.authentication',
-    'LevelUp.apps.trials'
+    'LevelUp.apps.trials',
+    'LevelUp.apps.increaseLevel'
 ]
 
 MIDDLEWARE = [
