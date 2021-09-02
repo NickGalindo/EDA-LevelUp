@@ -86,11 +86,32 @@ class AVLTree:
         '''
         if root is None:
             return root
-            #Compara key < root.key
-        elif not self.compare(key, root.key):
+        if root.key == key:
+            if root.left is None:
+                temp = root.right
+                root = None
+                return temp
+            elif root.right is None:
+                temp = root.left
+                root = None
+                return temp
+            temp = self.minValue(root.right)
+            root.key = temp.key
+            root.right = self.delete_node(root.right, temp.key)
+        elif not self.comparador(key, root.key):
             root.left = self.delete_node(root.left, key)
             #Compara key > root.key
-        elif self.compare(key, root.key):
+        elif self.comparador(key, root.key):
+            root.right = self.delete_node(root.right, key)
+            
+        '''
+        if root is None:
+            return root
+            #Compara key < root.key
+        elif not self.comparador(key, root.key):
+            root.left = self.delete_node(root.left, key)
+            #Compara key > root.key
+        elif self.comparador(key, root.key):
             root.right = self.delete_node(root.right, key)
         else:
             if root.left is None:
@@ -105,8 +126,7 @@ class AVLTree:
             root.key = temp.key
             root.right = self.delete_node(root.right,
                                           temp.key)
-        if root is None:
-            return root
+        '''
 
         root.height = 1 + max(self.get_Height(root.left),
                               self.get_Height(root.right))
@@ -210,15 +230,41 @@ class AVLTree:
             print(tmp, currNode.key, sep="")
             self.print_repr(currNode.left, indent, False)
             self.print_repr(currNode.right, indent, True)
+    
+    def ExtractMaxValues(self):
+        '''
+        Retorna una lista con todos arreglos [volumen,usuario] de los usuarios con el volumen maximo en la estructura.
+        '''
+        nodelist = []
+        #Conocemos el valor del nodo maximo, y luego vemos si el maximo en el arbol tiene su mismo valor de volumen y lo añadimos a la lista
+        maxnodevalue = self.get_MaxValueNode()
+        #Aqui se comparan volumenes
+        while maxnodevalue[0] == self.get_MaxValueNode()[0]:
+            #Lo eliminamos y se añade a la lista
+            nextnodevalue = self.get_MaxValueNode()
+            nodelist.append(nextnodevalue)
+            self.delete(nextnodevalue)
+        
+        return nodelist
+
+if __name__ == "__main__":
+    myTree = AVLTree()
+    keys = [[33,"pe"], [1,"pa"],[54,"pu"], [54,"a"], [3,"do"], [5,"f"], [65,"primer"],[65,"segundo"],[65,"tercero"],[65,"cuarto"],[65,"quito"],[65,"sexto"], [21,"nu"], [2,"ma"]]
+
+    #keys = [[3,"pe"],[2,"a"],[1,"o"]]
+    for key in keys:
+        myTree.insert(key)
+
+    myTree.representation()
+    print("max value: ", myTree.get_MaxValueNode(), end="\n\n")
+    
+    print(myTree.ExtractMaxValues())
+    #myTree.delete([3,"pe"])
+    myTree.representation()
+    #print("After Deletion: ")
+    #myTree.representation()
+
+    print("max value: ", myTree.get_MaxValueNode())
+    #print("min value: ", myTree.get_MinValueNode())
 
 
-myTree = AVLTree()
-keys = [[33,"pe"], [1,"pa"],[54,"pu"], [54,"a"], [3,"do"], [5,"f"], [65,"e"], [21,"nu"], [2,"ma"]]
-for key in keys:
-    myTree.insert(key)
-myTree.representation()
-#print("After Deletion: ")
-#myTree.representation()
-
-print("max value: ", myTree.get_MaxValueNode())
-print("min value: ", myTree.get_MinValueNode())
