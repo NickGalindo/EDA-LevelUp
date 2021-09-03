@@ -1,13 +1,14 @@
 '''
-Funcion increase level extraer los volumenes de todos los usuarios en un nivel y agregarlos a una estructura
+Funcion increase level extraer los volumenes de todos los usuarios
+en un nivel y agregarlos a una estructura
 '''
 
 import time
+import random
+import datetime
 from pymongo import MongoClient
 from structures.avl import AVLTree
 from structures.max_heap import MaxHeap
-import random
-import datetime
 
 random_exercises = [
     "pushups",
@@ -44,32 +45,47 @@ random_exercises = [
     "t-bar rows"
 ]
 
+
 # list_users = [[email, volumen],[],...]
-def insert_volume(list_users,varcoleccion):
-    #Generador de volumenes
-    
-    for i in list_users:
+def insert_volume():
+    '''
+    Esta funcion genera volumenes para todos los usuarios de forma aleatoria
+    '''
+    client = MongoClient()
+    db = client['EDA-Project']
+    coleccion = db['user_profiles']
+    users = coleccion.find()
+
+    for i in users:
+        exercises_list = []
+        name_list = []
+        for j in range(random.randint(2,10)):
+            name = random.choice(random_exercises)
+            while name in name_list:
+                name = random.choice(random_exercises)
+            name_list.append(name)
+
+            exercises_list.append({
+                        "name": name,
+                        "sets": random.randint(1,10),
+                        "reps": random.randint(1,100),
+                        "rpm": random.randint(1,1000)
+                })
+
         workouts = [
             {
                 "date": datetime.datetime.today(),
-                "exercises": [
-                    {
-                        "name":random.choice(random_exercises),
-                        "sets":random.randint(1,10),
-                        "reps":random.randint(1,100),
-                        "rpm":random.randint(1,1000)
-                    }
-                ]
+                "exercises":  exercises_list
             }
         ]
-        varcoleccion.update_one({"email":i[0]},{"$set": {"workouts":workouts}})
-
-    #for i in randint(1,10):
-    #    append()
-    return
+        coleccion.update_one({"email":i["email"]},{"$set": {"workouts":workouts}})
 
 def extract_volume(volume_dict):
-    return volume_dict["sets"]*volume_dict["reps"] + volume_dict["rpm"]
+    suma = 0
+    for i in volume_dict:
+        suma = suma + i["sets"]*i["reps"] + i["rpm"]
+
+    return suma
 
 def extract_users():
     client = MongoClient()
@@ -80,14 +96,15 @@ def extract_users():
     
     for i in users:
         tmp_list = []
-        #Guardamos los workouts
-        tmp_list.append(extract_volume(i["workouts"][0]["exercises"][0]))
         #Guardamos el email
+        tmp_list.append(extract_volume(i["workouts"][0]["exercises"]))
         tmp_list.append(i["email"])
-        #tmp_list.append(extract_volume( ))
+        #tmp_list.append(i["workouts"])
+        #Guardamos los workouts
         list_volume_users.append(tmp_list)
 
-    #insert_volume(list_volume_users, coleccion)
+    #debug
+    #print(list_volume_users)
 
     return list_volume_users
 
@@ -95,28 +112,53 @@ def extract_users():
 def use_structures(structure = "both"):
 
     users_volumes = extract_users()
+    number_promote = 3
+    list_promote_users_avl = []
+    list_promote_users_heap = []
 
     if structure in ["avl", "both"] :
+
+        start_avl = time.perf_counter()
 
         avl = AVLTree()
 
         for i in users_volumes:
             avl.insert(i)
+        
+        for i in range(number_promote):
+            list_promote_users_avl.append(avl.ExtractMaxValues())
+        end_avl = time.perf_counter()
 
+        print("\n\nAVL:\n")
+        #avl.representation()
         print("Los usuarios que suben de nivel son:")
-        print(avl.ExtractMaxValues())
+        print(list_promote_users_avl)
+        print(f"Tiempo de ejecucion: {end_avl-start_avl:0.5f} segundos")
    
     if structure in ["heap", "both"]:
+
+        start_heap = time.perf_counter()
 
         heap = MaxHeap(10)
         for i in users_volumes:
             heap.insert(i)
     
-        print("Los usuarios que suben de nivel son:")
-        print(heap.ExtractMaxValues())
+        for i in range(number_promote):
+            list_promote_users_heap.append(heap.ExtractMaxValues())
+        end_heap = time.perf_counter()
 
-    return
+        print("\n\nHeap:\n")
+        #print(repr(heap))
+        print("Los usuarios que suben de nivel son:")
+        print(list_promote_users_heap)
+        print(f"Tiempo de ejecucion: {end_heap-start_heap:0.5f} segundos")
+
+    if structure == "avl":
+        return list_promote_users_avl
+    return list_promote_users_heap
 
 if __name__ == "__main__":
-    print(extract_users())
-    print(len(extract_users()))
+    #insert_volume()
+    use_structures()
+    #print(extract_users())
+    #print(len(extract_users()))
