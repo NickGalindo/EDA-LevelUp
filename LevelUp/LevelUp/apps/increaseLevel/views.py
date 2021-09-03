@@ -11,4 +11,6 @@ def increase_level(request: Any):
     current_user = request.user
     print (current_user.email)
 
-    return redirect("userprofiles:profile")
+    context = {}
+
+    return render(request=request, template_name="increaseLevel/increaseLevel.html", context=context)
