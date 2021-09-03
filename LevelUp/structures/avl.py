@@ -10,7 +10,7 @@ class TreeNode:
         self.height = 1
         self.key = key #[volumen,usuario]
         self.left = None
-        self.right = None 
+        self.right = None
 
 
 class AVLTree:
@@ -53,9 +53,9 @@ class AVLTree:
         root.height = 1 + max(self.get_Height(root.left),
                               self.get_Height(root.right))
 
-        # Update the balance factor and balance the tree
+        # Verificar balance del arbol
         balance = self.get_Balance(root)
-        if balance > 1:
+        if balance < -1: #desbalance hacia la izquierda
               #Comparar key<root.left.key
             if not self.comparador(key, root.left.key):
                 return self.right_rotate(root)
@@ -63,7 +63,7 @@ class AVLTree:
                 root.left = self.left_rotate(root.left)
                 return self.right_rotate(root)
 
-        if balance < -1:
+        if balance > 1: #Desbalance hacia la derecha
                #Comparar key > root.right.key
             if self.comparador(key, root.right.key):
                 return self.left_rotate(root)
@@ -98,49 +98,26 @@ class AVLTree:
             temp = self.minValue(root.right)
             root.key = temp.key
             root.right = self.delete_node(root.right, temp.key)
-        elif not self.comparador(key, root.key):
-            root.left = self.delete_node(root.left, key)
-            #Compara key > root.key
-        elif self.comparador(key, root.key):
-            root.right = self.delete_node(root.right, key)
-            
-        '''
-        if root is None:
-            return root
             #Compara key < root.key
         elif not self.comparador(key, root.key):
             root.left = self.delete_node(root.left, key)
             #Compara key > root.key
         elif self.comparador(key, root.key):
             root.right = self.delete_node(root.right, key)
-        else:
-            if root.left is None:
-                temp = root.right
-                root = None
-                return temp
-            elif root.right is None:
-                temp = root.left
-                root = None
-                return temp
-            temp = self.minValue(root.right)
-            root.key = temp.key
-            root.right = self.delete_node(root.right,
-                                          temp.key)
-        '''
 
         root.height = 1 + max(self.get_Height(root.left),
                               self.get_Height(root.right))
 
         balance = self.get_Balance(root)
         #Cambios en balance
-        if balance > 1:
-            if self.get_Balance(root.left) >= 0:
+        if balance < -1: #desbalance hacia la izquierda
+            if self.get_Balance(root.left) <= 0:
                 return self.right_rotate(root)
             else:
                 root.left = self.left_rotate(root.left)
                 return self.right_rotate(root)
-        if balance < -1:
-            if self.get_Balance(root.right) <= 0:
+        if balance > 1: #desbalance hacia la derecha
+            if self.get_Balance(root.right) >= 0:
                 return self.left_rotate(root)
             else:
                 root.right = self.right_rotate(root.right)
@@ -193,7 +170,7 @@ class AVLTree:
         '''
         if node is None:
             return 0
-        return self.get_Height(node.left) - self.get_Height(node.right)
+        return self.get_Height(node.right) - self.get_Height(node.left)
 
     def minValue(self, root):
         if root is None or root.left is None:
@@ -230,7 +207,7 @@ class AVLTree:
             print(tmp, currNode.key, sep="")
             self.print_repr(currNode.left, indent, False)
             self.print_repr(currNode.right, indent, True)
-    
+
     def ExtractMaxValues(self):
         '''
         Retorna una lista con todos arreglos [volumen,usuario] de los usuarios con el volumen maximo en la estructura.
@@ -244,27 +221,26 @@ class AVLTree:
             nextnodevalue = self.get_MaxValueNode()
             nodelist.append(nextnodevalue)
             self.delete(nextnodevalue)
-        
+
         return nodelist
 
-if __name__ == "__main__":
+if __name__ == "__main__": #Pruebas del funcionamiento
     myTree = AVLTree()
-    keys = [[33,"pe"], [1,"pa"],[54,"pu"], [54,"a"], [3,"do"], [5,"f"], [65,"primer"],[65,"segundo"],[65,"tercero"],[65,"cuarto"],[65,"quito"],[65,"sexto"], [21,"nu"], [2,"ma"]]
+    keys = [[10,"pe"], [6,"a"],[12,"a"],[11,"a"]]
 
-    #keys = [[3,"pe"],[2,"a"],[1,"o"]]
     for key in keys:
         myTree.insert(key)
 
     myTree.representation()
     print("max value: ", myTree.get_MaxValueNode(), end="\n\n")
-    
-    print(myTree.ExtractMaxValues())
-    #myTree.delete([3,"pe"])
-    myTree.representation()
-    #print("After Deletion: ")
+
+
+
+    #print(myTree.ExtractMaxValues())
     #myTree.representation()
+    myTree.delete([6,"a"])
+    print("After Deletion: ")
+    myTree.representation()
 
-    print("max value: ", myTree.get_MaxValueNode())
+    #print("max value: ", myTree.get_MaxValueNode())
     #print("min value: ", myTree.get_MinValueNode())
-
-
