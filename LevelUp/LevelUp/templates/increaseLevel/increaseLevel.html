@@ -35,6 +35,10 @@
 	</div>
       </div>
     </div>
+  {% else %}
+  <div class="alert" role="alert" style="background-color: rgba(0, 0, 0, 0.6);">
+    No hay usuarios suficientes para hacer aumento de nivel
+  </div>
   {% endif %}
 </div>
 {% endblock content %}
