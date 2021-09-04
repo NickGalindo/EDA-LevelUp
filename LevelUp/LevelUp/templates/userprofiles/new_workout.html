@@ -1,0 +1,43 @@
+{% extends 'basetemplate_loggedin.html' %}
+{% block content %}
+
+<br>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-xl-6 card shadow">
+      <legend class="border-bottom mb-4 text-center">New Workout</legend>
+      <div class="content-section">
+        <form method="POST" action="">
+          {% csrf_token %}
+          <div class="form-group mb-3">
+            <label class="control-label" for="{{ form.date.label }}">
+              Date
+            </label>
+            {{ form.date.errors }}
+            <div class="input-group">
+              <div class="input-group-text">
+                <i class="fas fa-calendar" style="color:#7C2DAD"></i>
+              </div>
+              {{ form.date }}
+            </div>
+          </div>
+          <div class="form-group mb-3">
+            <label class="control-label" for="{{ form.num_exercisas.id_for_label }}">
+              Number of Exercises
+            </label>
+            {{ form.num_exercises.errors }}
+            <div class="input-group">
+              <div class="input-group-text">
+                <i class="fas fa-dumbbell" style="color:#7C2DAD"></i>
+              </div>
+              {{ form.num_exercises }}
+            </div>
+          </div>
+          <input class="btn btn-outline-themed-primary mb-3" type="submit" value="New Workout">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
