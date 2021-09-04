@@ -174,7 +174,6 @@ class MaxHeap:
         #Aqui se comparan volumenes
         while self.get_max() is not None and maxvalue[0] == self.get_max()[0]:
             #Lo eliminamos y se añade a la lista
-            print(3)
             nextvalue = self.extract_max()
             valueslist.append(nextvalue)
         

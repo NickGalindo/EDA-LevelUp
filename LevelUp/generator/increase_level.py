@@ -115,7 +115,7 @@ def extract_users():
 
 
 #number_promote << min_users_req
-def use_structures(structure = "both", number_promote = 3, min_users_req = 3):
+def use_structures(structure = "both", number_promote = 2, min_users_req = 4):
 
     users_volumes = extract_users()
     list_promote_users_avl = []
@@ -134,7 +134,7 @@ def use_structures(structure = "both", number_promote = 3, min_users_req = 3):
             avl.insert(i)
         
         for i in range(number_promote):
-            list_promote_users_avl.append(avl.ExtractMaxValues())
+            list_promote_users_avl += avl.ExtractMaxValues()
         end_avl = time.perf_counter()
 
         print("\n\nAVL:\n")
@@ -146,12 +146,12 @@ def use_structures(structure = "both", number_promote = 3, min_users_req = 3):
     if structure in ["heap", "both"]:
 
         start_heap = time.perf_counter()
-        heap = MaxHeap(10)
+        heap = MaxHeap(len(users_volumes))
         for i in users_volumes:
             heap.insert(i)
     
         for i in range(number_promote):
-            list_promote_users_heap.append(heap.ExtractMaxValues())
+            list_promote_users_heap += heap.ExtractMaxValues()
         end_heap = time.perf_counter()
 
         print("\n\nHeap:\n")
@@ -165,7 +165,7 @@ def use_structures(structure = "both", number_promote = 3, min_users_req = 3):
     return list_promote_users_heap
 
 if __name__ == "__main__":
-    #insert_volume()
-    use_structures()
+    insert_volume()
+    #use_structures()
     #print(extract_users())
     #print(len(extract_users()))
