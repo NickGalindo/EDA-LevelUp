@@ -7,32 +7,34 @@
   <div class="text-left fs-1 py-5 px-5">
     Increase Level
   </div>
-  <div class="content px-5">
-    <div class="row">
-      <div class="col-9">
-	<table class="table fs-4 text-white px-5" style="background-color: rgba(0, 0, 0, 0.6);">
-	  <thead>
-	    <tr>
-	      <th class="fs-4" scope="col">Email</th>
-	      <th class="fs-4" scope="col">Volume</th>
-	    </tr>
-	  </thead>
-	  <tbody>
-	    {% for colum in promoted %}
-	    <tr>
-	      <td>{{colum.0.1}}</td>
-	      <td>{{colum.0.0}}</td>
-	    </tr>
-	    {% endfor %}
-	  </tbody>
-	</table>
-      </div>
-      <div class="col-3 px-5 py-3">
-	<div class="content fs-4">
-	  ¡¡¡Personas que han sido ascendidas esta semana al siguiente nivel!!!
+  {% if promoted %}
+    <div class="content px-5">
+      <div class="row">
+	<div class="col-9">
+	  <table class="table fs-4 text-white px-5" style="background-color: rgba(0, 0, 0, 0.6);">
+	    <thead>
+	      <tr>
+		<th class="fs-4" scope="col">Email</th>
+		<th class="fs-4" scope="col">Volume</th>
+	      </tr>
+	    </thead>
+	    <tbody>
+	      {% for colum in promoted %}
+	      <tr>
+		<td>{{colum.0.1}}</td>
+		<td>{{colum.0.0}}</td>
+	      </tr>
+	      {% endfor %}
+	    </tbody>
+	  </table>
+	</div>
+	<div class="col-3 px-5 py-3">
+	  <div class="content fs-4">
+	    ¡¡¡Personas que han sido ascendidas esta semana al siguiente nivel!!!
+	  </div>
 	</div>
       </div>
     </div>
-  </div>
+  {% endif %}
 </div>
 {% endblock content %}
