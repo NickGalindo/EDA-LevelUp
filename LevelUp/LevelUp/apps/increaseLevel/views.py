@@ -10,8 +10,8 @@ def increase_level(request: Any):
     view increse_level funtion
     """
     current_user = request.user
-    use_structures()
+    promoted = use_structures()
 
-    context = {}
+    context = { "promoted" : promoted }
 
     return render(request=request, template_name="increaseLevel/increaseLevel.html", context=context)
