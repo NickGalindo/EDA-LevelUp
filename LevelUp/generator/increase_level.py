@@ -97,6 +97,8 @@ def extract_users():
     for i in users:
         tmp_list = []
         #Guardamos el email
+        if extract_volume(i["workouts"][0]["exercises"]) == 0:
+            continue
         tmp_list.append(extract_volume(i["workouts"][0]["exercises"]))
         tmp_list.append(i["email"])
         #tmp_list.append(i["workouts"])
@@ -109,12 +111,14 @@ def extract_users():
     return list_volume_users
 
 
-def use_structures(structure = "both"):
+def use_structures(structure = "both", number_promote = 3, min_users_req = 10):
 
     users_volumes = extract_users()
-    number_promote = 3
     list_promote_users_avl = []
     list_promote_users_heap = []
+
+    if len(users_volumes)<= number_promote or len(users_volumes) <= min_users_req:
+        return list_promote_users_heap
 
     if structure in ["avl", "both"] :
 
