@@ -65,7 +65,7 @@ class MaxHeap:
     def extract_max(self, val = None):
         'Extrae el valor maximo del heap'
         if self.size == 0:
-            raise 'ERROR empty heap'
+            return None
         result = self.H[0]
         self.H[0] = self.H[self.size - 1]
         self.size = self.size - 1
@@ -77,6 +77,8 @@ class MaxHeap:
     
     def get_max(self):
         'Devuelve el key maximo'
+        if self.size == 0:
+            return None
         return self.H[0]
 
     def remove(self, i):
@@ -165,11 +167,14 @@ class MaxHeap:
         Retorna una lista con todos arreglos [volumen,usuario] de los usuarios con el volumen maximo en la estructura.
         '''
         valueslist = []
+        if self.get_max() is None:
+            return valueslist
         maxvalue = self.get_max()
         
         #Aqui se comparan volumenes
-        while maxvalue[0] == self.get_max()[0]:
+        while self.get_max() is not None and maxvalue[0] == self.get_max()[0]:
             #Lo eliminamos y se añade a la lista
+            print(3)
             nextvalue = self.extract_max()
             valueslist.append(nextvalue)
         

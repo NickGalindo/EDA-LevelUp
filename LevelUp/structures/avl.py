@@ -21,16 +21,16 @@ class AVLTree:
     #Retorna True si el key nodo1 es mayor a nodo2
     #Compara primero el volumen y  luego los usuarios
     def comparador(self,nodo1key,nodo2key):
-      if (nodo1key[0] > nodo2key[0]):
-        return True
-      elif(nodo1key[0] < nodo2key[0]):
-        return False
-      else: #si tienen igual valor volumen
+        if (nodo1key[0] > nodo2key[0]):
+            return True
+        elif(nodo1key[0] < nodo2key[0]):
+            return False
+        else: #si tienen igual valor volumen
         #Comparar por nombre o id
-        if (nodo1key[1] > nodo2key[1]):
-          return True
-        elif(nodo1key[1] < nodo2key[1]):
-          return False
+            if (nodo1key[1] > nodo2key[1]):
+                return True
+            elif(nodo1key[1] < nodo2key[1]):
+                return False
 
     def insert(self, key):
         '''
@@ -82,7 +82,7 @@ class AVLTree:
     def delete_node(self, root, key):
         '''
         Elimina un nodo que contenga la llave "key" en el arbol
-        avl que tenga la raiz "root"
+        avl que tenga la raiz "rootj
         '''
         if root is None:
             return root
@@ -95,7 +95,7 @@ class AVLTree:
                 temp = root.left
                 root = None
                 return temp
-            temp = self.minValue(root.right)
+            temp = self.minNode(root.right)
             root.key = temp.key
             root.right = self.delete_node(root.right, temp.key)
             #Compara key < root.key
@@ -172,21 +172,23 @@ class AVLTree:
             return 0
         return self.get_Height(node.right) - self.get_Height(node.left)
 
-    def minValue(self, root):
+    def minNode(self, root):
         if root is None or root.left is None:
             return root
-        return self.minValue(root.left)
+        return self.minNode(root.left)
 
     def get_MinValueNode(self):
-        return self.minValue(self.root).key
+        return self.minNode(self.root).key
 
-    def maxValue(self, root):
+    def maxNode(self, root):
         if root is None or root.right is None:
             return root
-        return self.maxValue(root.right)
+        return self.maxNode(root.right)
 
     def get_MaxValueNode(self):
-        return self.maxValue(self.root).key
+        if self.root is None:
+            return self.root
+        return self.maxNode(self.root).key
 
     def representation(self):
         self.print_repr(self.root, "", True)
@@ -214,9 +216,12 @@ class AVLTree:
         '''
         nodelist = []
         #Conocemos el valor del nodo maximo, y luego vemos si el maximo en el arbol tiene su mismo valor de volumen y lo añadimos a la lista
+        if self.maxNode(self.root) is None:
+            return nodelist
+
         maxnodevalue = self.get_MaxValueNode()
         #Aqui se comparan volumenes
-        while maxnodevalue[0] == self.get_MaxValueNode()[0]:
+        while self.maxNode(self.root) is not None and maxnodevalue[0] == self.get_MaxValueNode()[0]:
             #Lo eliminamos y se añade a la lista
             nextnodevalue = self.get_MaxValueNode()
             nodelist.append(nextnodevalue)
@@ -226,13 +231,16 @@ class AVLTree:
 
 if __name__ == "__main__": #Pruebas del funcionamiento
     myTree = AVLTree()
-    keys = [[10,"pe"], [6,"a"],[12,"a"],[11,"a"]]
+    #keys = [[10,"pe"], [6,"a"],[12,"a"],[11,"a"]]
+    keys = [[11,"a"]]
+    keys = []
 
     for key in keys:
         myTree.insert(key)
 
     myTree.representation()
-    print("max value: ", myTree.get_MaxValueNode(), end="\n\n")
+    #print("max value: ", myTree.get_MaxValueNode(), end="\n\n")
+    print("max value: ", myTree.ExtractMaxValues(), end="\n\n")
 
 
 

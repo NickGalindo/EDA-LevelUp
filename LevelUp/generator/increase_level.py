@@ -68,8 +68,8 @@ def insert_volume():
             exercises_list.append({
                         "name": name,
                         "sets": random.randint(1,10),
-                        "reps": random.randint(1,100),
-                        "rpm": random.randint(1,1000)
+                        "reps": random.randint(1,200),
+                        "weight": random.randint(1,250)
                 })
 
         workouts = [
@@ -82,8 +82,8 @@ def insert_volume():
 
 def extract_volume(volume_dict):
     suma = 0
-    for i in volume_dict:
-        suma = suma + i["sets"]*i["reps"] + i["rpm"]
+    for exe in volume_dict:
+        suma += exe["sets"]*exe["reps"]*(1 if exe["weight"] == 0 else exe["weight"])
 
     return suma
 
@@ -97,9 +97,12 @@ def extract_users():
     for i in users:
         tmp_list = []
         #Guardamos el email
+        if len(i["workouts"]) == 0:
+            continue
         if extract_volume(i["workouts"][0]["exercises"]) == 0:
             continue
-        tmp_list.append(extract_volume(i["workouts"][0]["exercises"]))
+        last = len(i["workouts"]) - 1
+        tmp_list.append(extract_volume(i["workouts"][last]["exercises"]))
         tmp_list.append(i["email"])
         #tmp_list.append(i["workouts"])
         #Guardamos los workouts
@@ -111,13 +114,14 @@ def extract_users():
     return list_volume_users
 
 
-def use_structures(structure = "both", number_promote = 3, min_users_req = 10):
+#number_promote << min_users_req
+def use_structures(structure = "both", number_promote = 3, min_users_req = 3):
 
     users_volumes = extract_users()
     list_promote_users_avl = []
     list_promote_users_heap = []
 
-    if len(users_volumes)<= number_promote or len(users_volumes) <= min_users_req:
+    if len(users_volumes) < number_promote or len(users_volumes) < min_users_req:
         return list_promote_users_heap
 
     if structure in ["avl", "both"] :
@@ -142,7 +146,6 @@ def use_structures(structure = "both", number_promote = 3, min_users_req = 10):
     if structure in ["heap", "both"]:
 
         start_heap = time.perf_counter()
-
         heap = MaxHeap(10)
         for i in users_volumes:
             heap.insert(i)
