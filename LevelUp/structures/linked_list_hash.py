@@ -1,9 +1,9 @@
 from typing import List, Any
-from linked_list import  _Node
+from . import  linked_list
 
 
 
-class NodeHash(_Node):
+class NodeHash(linked_list._Node):
     def __init__(self, key : Any=None, val: Any=None, next: Any=None, prev: Any=None):
         self.val = val
         self.next = next

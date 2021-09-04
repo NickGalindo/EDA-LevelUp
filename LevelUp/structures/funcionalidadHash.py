@@ -25,7 +25,7 @@ def obtenerUsuariosVolumen(arregloVacio: List):
         arregloVacio.append((x['username'],arregloVolumen))
 
 
-def insertarUsuariosVolumenTablaHash(arregloLleno: List, tablaHash : HashTable):
+def insertarTablaHash(arregloLleno: List, tablaHash : HashTable):
 
     '''
     Para insertar en la tabla hash los usuarios registrados
@@ -38,13 +38,14 @@ def insertarUsuariosVolumenTablaHash(arregloLleno: List, tablaHash : HashTable):
     for i in arregloLleno:
         tablaHash.set(i[0],i[1])
 
-'''
+"""
 arr = []
 obtenerUsuariosVolumen(arregloVacio = arr)
 print(arr)
 
 h = HashTable(10)
-insertarUsuariosVolumenTablaHash(arregloLleno = arr, tablaHash = h)
-print(h.hasKey('brian')) #se pone cualquier nombre de usuario que tengan ustedes, de acuerdo a sus pruebas
-print(h.get('brian'))
-'''      
+insertarTablaHash(arregloLleno = arr, tablaHash = h)
+
+for x in h.A:
+    print(x)
+"""  

@@ -19,6 +19,7 @@ def sign_up(request: Any):
     form = None
 
     #If user is already logged in then redirect to the users profile page
+    
     if request.user.is_authenticated:
         return redirect("userprofiles:profile")
 

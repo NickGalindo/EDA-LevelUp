@@ -1,5 +1,5 @@
 from typing import Any
-import linked_list_hash
+from . import linked_list_hash
 
 
 
