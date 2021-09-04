@@ -97,6 +97,8 @@ def extract_users():
     for i in users:
         tmp_list = []
         #Guardamos el email
+        if len(i["workouts"]) == 0:
+            continue
         if extract_volume(i["workouts"][0]["exercises"]) == 0:
             continue
         tmp_list.append(extract_volume(i["workouts"][0]["exercises"]))
