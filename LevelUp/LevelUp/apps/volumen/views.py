@@ -15,12 +15,12 @@ def VolumeHistory(request : Any):
 
     #arreglo con tuplas (nombre usuario, volúmenenes)
     key_values = []
-    #Tabla hash que almacenará las llave/valor
+    #Tabla hash de tamaño n que almacenará las llave/valor 
     myHash = HashTable(30)
 
     for user_info in db.find({},{'username':1}):
 
-        # arreglo de los volumenes generados 
+        # arreglo de los volúmenes generados 
         volumes = [random.randrange(100)+50 for i in range(10)]
 
         key_values.append( (user_info['username'],volumes) )
@@ -28,6 +28,10 @@ def VolumeHistory(request : Any):
     #llenar la tabla hash
     for user in key_values:
         myHash.set(user[0],user[1])
+
+    for i in myHash.A:
+        print(i)
+
     
     return render(request=request, template_name='volume/volume.html', context=context)
 
