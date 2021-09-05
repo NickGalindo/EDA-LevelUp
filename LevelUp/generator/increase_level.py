@@ -10,76 +10,6 @@ from pymongo import MongoClient
 from structures.avl import AVLTree
 from structures.max_heap import MaxHeap
 
-random_exercises = [
-    "pushups",
-    "pullups",
-    "deadlifts",
-    "squats",
-    "bench press",
-    "incline bench press",
-    "pulldowns",
-    "barbell rows",
-    "overhead press",
-    "lateral raises",
-    "tricep pushdowns",
-    "bicep curls",
-    "hammer curls",
-    "dips",
-    "tricep extensions",
-    "hip thrusts",
-    "bulgarian split squats",
-    "skullcrushers",
-    "concentration curls",
-    "chest fly",
-    "flat dumbbell press",
-    "incline dumbbell press",
-    "rear delt fly",
-    "simgle arm dumbbell rows",
-    "dumbbell pullovers",
-    "calve extensions",
-    "leg extensions",
-    "hamstring curls",
-    "ez bar curls",
-    "facepulls",
-    "leg press",
-    "t-bar rows"
-]
-
-
-# list_users = [[email, volumen],[],...]
-def insert_volume():
-    '''
-    Esta funcion genera volumenes para todos los usuarios de forma aleatoria
-    '''
-    client = MongoClient()
-    db = client['EDA-Project']
-    coleccion = db['user_profiles']
-    users = coleccion.find()
-
-    for i in users:
-        exercises_list = []
-        name_list = []
-        for j in range(random.randint(2,10)):
-            name = random.choice(random_exercises)
-            while name in name_list:
-                name = random.choice(random_exercises)
-            name_list.append(name)
-
-            exercises_list.append({
-                        "name": name,
-                        "sets": random.randint(1,10),
-                        "reps": random.randint(1,200),
-                        "weight": random.randint(1,250)
-                })
-
-        workouts = [
-            {
-                "date": datetime.datetime.today(),
-                "exercises":  exercises_list
-            }
-        ]
-        coleccion.update_one({"email":i["email"]},{"$set": {"workouts":workouts}})
-
 def extract_volume(volume_dict):
     suma = 0
     for exe in volume_dict:
@@ -87,7 +17,7 @@ def extract_volume(volume_dict):
 
     return suma
 
-def extract_users():
+def extract_users(max_users = None):
     client = MongoClient()
     db = client['EDA-Project']
     coleccion = db['user_profiles']
@@ -107,6 +37,8 @@ def extract_users():
         #tmp_list.append(i["workouts"])
         #Guardamos los workouts
         list_volume_users.append(tmp_list)
+        if max_users and len(list_volume_users) >= max_users:
+            break
 
     #debug
     #print(list_volume_users)
@@ -115,9 +47,13 @@ def extract_users():
 
 
 #number_promote << min_users_req
-def use_structures(structure = "both", number_promote = 2, min_users_req = 4):
+def use_structures(max_users = 10000, structure = "both", number_promote = 100, min_users_req = 1000):
 
-    users_volumes = extract_users()
+    if max_users :
+        users_volumes = extract_users(max_users)
+        print("\nNumero de usuarios manejados: ", max_users, end="")
+    else:
+        users_volumes = extract_users()
     list_promote_users_avl = []
     list_promote_users_heap = []
 
@@ -126,38 +62,60 @@ def use_structures(structure = "both", number_promote = 2, min_users_req = 4):
 
     if structure in ["avl", "both"] :
 
+        print("\n\nAVL:\n")
+
         start_avl = time.perf_counter()
 
+        start_avl_create = time.perf_counter()
         avl = AVLTree()
+        end_avl_create = time.perf_counter()
+        print(f"Tiempo de creacion : {end_avl_create-start_avl_create:0.5f} segundos")
 
+        start_avl_insert = time.perf_counter()
         for i in users_volumes:
             avl.insert(i)
-        
+        end_avl_insert = time.perf_counter()
+        print(f"Tiempo de insercion : {end_avl_insert-start_avl_insert:0.5f} segundos")
+        start_avl_extract = time.perf_counter()
         for i in range(number_promote):
             list_promote_users_avl += avl.ExtractMaxValues()
+        end_avl_extract = time.perf_counter()
+        print(f"Tiempo de extraccion : {end_avl_extract-start_avl_extract:0.5f} segundos")
+
         end_avl = time.perf_counter()
 
-        print("\n\nAVL:\n")
         #avl.representation()
-        print("Los usuarios que suben de nivel son:")
-        print(list_promote_users_avl)
+        #print("Los usuarios que suben de nivel son:")
+        #print(list_promote_users_avl)
         print(f"Tiempo de ejecucion: {end_avl-start_avl:0.5f} segundos")
    
     if structure in ["heap", "both"]:
 
+        print("\n\nHeap:\n")
+
         start_heap = time.perf_counter()
+
+        start_heap_create = time.perf_counter()
         heap = MaxHeap(len(users_volumes))
+        end_heap_create = time.perf_counter()
+        print(f"Tiempo de creacion : {end_heap_create-start_heap_create:0.5f} segundos")
+
+        start_heap_insert = time.perf_counter()
         for i in users_volumes:
             heap.insert(i)
+        end_heap_insert = time.perf_counter()
+        print(f"Tiempo de insercion : {end_heap_insert-start_heap_insert:0.5f} segundos")
     
+        start_heap_extract = time.perf_counter()
         for i in range(number_promote):
             list_promote_users_heap += heap.ExtractMaxValues()
+        end_heap_extract = time.perf_counter()
+        print(f"Tiempo de extraccion : {end_heap_extract-start_heap_extract:0.5f} segundos")
         end_heap = time.perf_counter()
 
-        print("\n\nHeap:\n")
         #print(repr(heap))
-        print("Los usuarios que suben de nivel son:")
-        print(list_promote_users_heap)
+        #print("Los usuarios que suben de nivel son:")
+        #print(list_promote_users_heap)
         print(f"Tiempo de ejecucion: {end_heap-start_heap:0.5f} segundos")
 
     if structure == "avl":

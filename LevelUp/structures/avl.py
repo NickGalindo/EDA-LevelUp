@@ -42,6 +42,7 @@ class AVLTree:
         '''
         Inserta un nodo en el arbol avl con la raiz root
         '''
+        
         if root is None:
             return TreeNode(key)
             #Verificar si key<root.key

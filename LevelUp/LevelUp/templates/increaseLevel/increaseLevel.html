@@ -1,8 +1,6 @@
 {% extends 'basetemplate_loggedin.html' %}
 {% load static %}
 {% block content %}
-<div class="alert alert-info text-center rounded mt-2 mb-2 ml-5 mr-5" style="display:none;">
-</div>
 <div class="p-5 text-white text-center bg-image" style="background-image: url('{% static 'images/increaseLevel/trail_running.jpg' %}'); background-size: cover; height: 100vh;" >
   <div class="text-left fs-1 py-5 px-5">
     Increase Level
@@ -10,8 +8,11 @@
   {% if promoted %}
   <div class="content px-5">
     <div class="row">
-      <div class="col-9">
-	<table class="table fs-4 text-white px-5" style="background-color: rgba(0, 0, 0, 0.6);">
+    <div class="alert alert-success text-center rounded mt-2 mb-2 ml-5 mr-5">
+      ¡¡¡Personas que han sido ascendidas esta semana al siguiente nivel!!!
+    </div>
+      <div class="overflow-auto" style="height: 65vh">
+	<table class="table table-fixed fs-4 text-white px-3" style="background-color: rgba(0, 0, 0, 0.6);">
 	  <thead>
 	    <tr>
 	      <th class="fs-4" scope="col">Email</th>
@@ -27,11 +28,6 @@
 	    {% endfor %}
 	  </tbody>
 	</table>
-      </div>
-      <div class="col-3 px-5 py-3">
-	<div class="content fs-4">
-	  ¡¡¡Personas que han sido ascendidas esta semana al siguiente nivel!!!
-	</div>
       </div>
     </div>
   {% else %}
