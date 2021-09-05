@@ -63,8 +63,20 @@ Highcharts.chart('container', {
     }]
 });
 
+var l =[]
 
-console.log("{{exercises.1.0}}")
+
+for (var e in {exercises} )
+    l.push(
+        {
+            name: e[0],
+            y: e[1],
+        }
+    )
+
+
+console.log(l)
+
 Highcharts.chart('Piecontainer', {
     chart: {
         plotBackgroundColor: null,
@@ -93,6 +105,7 @@ Highcharts.chart('Piecontainer', {
             showInLegend: true
         }
     },
+
     series: [{
         name: 'Porcentaje',
         colorByPoint: true,
