@@ -29,7 +29,7 @@ def profile(request: Any):
             total_volume += exe["sets"]*exe["reps"]*(1 if exe["weight"] == 0 else exe["weight"])
 
         workouts.append({
-            "date": workout["date"].strftime("%B %-d, %Y"),
+            "date": workout["date"].strftime("%B %d, %Y"),
             "total_volume": total_volume,
             "exercises": workout["exercises"]
         })
@@ -108,6 +108,6 @@ def add_exercises(request: Any):
         add_exercises_formset = add_exercises_formset_factory()
 
     context["formset"] = add_exercises_formset
-    context["workout_date"] = workout_date.strftime("%B %-d, %Y")
+    context["workout_date"] = workout_date.strftime("%B %d, %Y")
 
     return render(request=request, template_name="userprofiles/add_exercises.html", context=context)

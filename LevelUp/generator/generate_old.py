@@ -78,7 +78,6 @@ def createUsers():
     })
     print("Se crearon "+str(len(bulk_insert))+" usuarios")
     """
-    return bulk_insert
 
 def usersExist():
     """
