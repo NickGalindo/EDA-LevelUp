@@ -165,7 +165,7 @@ def use_structures(structure = "both", number_promote = 2, min_users_req = 4):
     return list_promote_users_heap
 
 if __name__ == "__main__":
-    insert_volume()
-    #use_structures()
+    #Es necesario no borrar esto o explota
+    use_structures()
     #print(extract_users())
     #print(len(extract_users()))

@@ -1,10 +1,80 @@
 from django.contrib.auth.models import User
 import json
 import random
+from pymongo import MongoClient
 from typing import List
 import datetime
 import pymongo
 
+random_exercises = [
+    "pushups",
+    "pullups",
+    "deadlifts",
+    "squats",
+    "bench press",
+    "incline bench press",
+    "pulldowns",
+    "barbell rows",
+    "overhead press",
+    "lateral raises",
+    "tricep pushdowns",
+    "bicep curls",
+    "hammer curls",
+    "dips",
+    "tricep extensions",
+    "hip thrusts",
+    "bulgarian split squats",
+    "skullcrushers",
+    "concentration curls",
+    "chest fly",
+    "flat dumbbell press",
+    "incline dumbbell press",
+    "rear delt fly",
+    "simgle arm dumbbell rows",
+    "dumbbell pullovers",
+    "calve extensions",
+    "leg extensions",
+    "hamstring curls",
+    "ez bar curls",
+    "facepulls",
+    "leg press",
+    "t-bar rows"
+]
+
+
+# list_users = [[email, volumen],[],...]
+def insert_volume():
+    '''
+    Esta funcion genera volumenes para todos los usuarios de forma aleatoria
+    '''
+    client = MongoClient()
+    db = client['EDA-Project']
+    coleccion = db['user_profiles']
+    users = coleccion.find()
+
+    for i in users:
+        exercises_list = []
+        name_list = []
+        for j in range(random.randint(2,10)):
+            name = random.choice(random_exercises)
+            while name in name_list:
+                name = random.choice(random_exercises)
+            name_list.append(name)
+
+            exercises_list.append({
+                        "name": name,
+                        "sets": random.randint(1,10),
+                        "reps": random.randint(1,200),
+                        "weight": random.randint(1,250)
+                })
+
+        workouts = [
+            {
+                "date": datetime.datetime.today(),
+                "exercises":  exercises_list
+            }
+        ]
+        coleccion.update_one({"email":i["email"]},{"$set": {"workouts":workouts}})
 
 # Generate Uniques
 def _generateUsername(words: List[str], size: int, cnt: int=1):
@@ -184,9 +254,7 @@ def createSpecialUsers():
     print("Insercion terminada... proceso terminado")
     """
 
-
-
-
 # Run if run as main
 if __name__ == "__main__":
-    createUsers()
+    #createUsers()
+    insert_volume()

@@ -111,3 +111,12 @@ def add_exercises(request: Any):
     context["workout_date"] = workout_date.strftime("%B %d, %Y")
 
     return render(request=request, template_name="userprofiles/add_exercises.html", context=context)
+
+@login_required
+def generate(request: Any):
+    '''
+    Funcion generadora de usuarios
+    '''
+    print("Hola mundo")
+
+    return redirect("userprofiles:profile")
