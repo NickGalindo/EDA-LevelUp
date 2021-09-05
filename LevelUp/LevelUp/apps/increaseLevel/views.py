@@ -1,7 +1,7 @@
 from typing import List, Dict, Any
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from generator.increase_level import use_structures,insert_volume
+from generator.increase_level import use_structures
 
 # Create your views here.
 @login_required
