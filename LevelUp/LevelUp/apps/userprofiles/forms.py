@@ -1,4 +1,5 @@
 from django import forms
+from django.contrib.auth.models import User
 from django.forms.utils import ErrorList
 from django.forms import BaseFormSet
 import datetime
@@ -67,3 +68,45 @@ class exercise_form(forms.Form):
             attrs={'class':'form-control', 'required':''}
         )
     )
+
+class edit_profile_form(forms.Form):
+    username = forms.CharField(
+        max_length=100,
+        label='Username',
+        required=False,
+        widget=forms.TextInput(
+            attrs={'class':'form-control borderless text-center p-0 shadow-none', 'style':'outline: none !important; background: none; font-size: 30px;'}
+        )
+    )
+    first_name = forms.CharField(
+        max_length=100,
+        label='First Name',
+        required=False,
+        widget=forms.TextInput(
+            attrs={'class':'form-control borderless text-center p-0 shadow-none', 'style':'outline: none !important; background: none; font-size: 20px;'}
+        )
+    )
+    last_name = forms.CharField(
+        max_length=100,
+        label='Last Name',
+        required=False,
+        widget=forms.TextInput(
+            attrs={'class':'form-control borderless text-center p-0 shadow-none', 'style':'outline: none !important; background: none; font-size: 20px;'}
+        )
+    )
+
+    def __init__(self, username_placeholder, first_name_placeholder, last_name_placeholder, *args, **kwargs):
+        super(edit_profile_form, self).__init__(*args, **kwargs)
+        self.fields["username"].widget.attrs['placeholder'] = "username" if username_placeholder == "" else username_placeholder
+        self.fields["first_name"].widget.attrs['placeholder'] = "first name" if first_name_placeholder == "" else first_name_placeholder
+        self.fields["last_name"].widget.attrs['placeholder'] = "last name" if last_name_placeholder == "" else last_name_placeholder
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+
+        if username == "":
+            return username
+
+        if User.objects.filter(username=username).exists():
+            raise forms.ValidationError(f"Username {username} is already in use!")
+        return username

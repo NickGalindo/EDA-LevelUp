@@ -38,6 +38,8 @@ def sign_up(request: Any):
             user_collection.insert_one({
                 "email": data["email"],
                 "username": data["username"],
+                "first_name": "",
+                "last_name": "",
                 "profile_image": None,
                 "workouts": []
             })

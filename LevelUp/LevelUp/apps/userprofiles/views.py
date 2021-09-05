@@ -3,7 +3,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.forms import formset_factory
 
+import uuid
 from pymongo import MongoClient
+from structures.linked_list import LinkedList_References
 import datetime
 from . import forms
 
@@ -21,6 +23,16 @@ def profile(request: Any):
     usr_email = request.user.email
     usr = user_collection.find_one({"email": usr_email})
 
+    if 'rmw' in request.GET and 'id' in request.GET:
+        ll_list = LinkedList_References(usr["workouts"])
+        if int(request.GET['rmw']) < len(ll_list):
+            if ll_list.get(int(request.GET['rmw']))['id'] == request.GET['id']:
+                ll_list.remove(int(request.GET['rmw']))
+                usr["workouts"] = ll_list.to_list()
+                user_collection.update_one({"email": usr_email}, {"$set": {"workouts": usr["workouts"]}})
+
+    client.close()
+
     workouts = []
     for workout in usr["workouts"]:
 
@@ -29,12 +41,15 @@ def profile(request: Any):
             total_volume += exe["sets"]*exe["reps"]*(1 if exe["weight"] == 0 else exe["weight"])
 
         workouts.append({
+            "id": workout["id"],
             "date": workout["date"].strftime("%B %d, %Y"),
             "total_volume": total_volume,
             "exercises": workout["exercises"]
         })
 
     context["workouts"] = workouts
+    context["first_name"] = usr["first_name"]
+    context["last_name"] = usr["last_name"]
 
     return render(request=request, template_name="userprofiles/profile.html", context=context)
 
@@ -79,6 +94,7 @@ def add_exercises(request: Any):
         add_exercises_formset = add_exercises_formset_factory(request.POST)
         if add_exercises_formset.is_valid():
             new_workout = {
+                "id": str(uuid.uuid4()).replace("-", ""),
                 "date": workout_date,
                 "exercises": []
             }
@@ -111,3 +127,89 @@ def add_exercises(request: Any):
     context["workout_date"] = workout_date.strftime("%B %d, %Y")
 
     return render(request=request, template_name="userprofiles/add_exercises.html", context=context)
+
+
+@login_required
+def edit_profile(request: Any):
+    """
+    Edit the profile of the current user
+    """
+    context = {}
+
+    client = MongoClient()
+    user_collection = client["EDA-Project"]["user_profiles"]
+    usr_email = request.user.email
+    usr = user_collection.find_one({"email": usr_email})
+
+    if request.method == 'POST':
+        form = forms.edit_profile_form(data=request.POST, username_placeholder=usr["username"], first_name_placeholder=usr["first_name"], last_name_placeholder=usr["last_name"], error_class=forms.CustomError)
+
+        if form.is_valid():
+            data = form.cleaned_data
+            data["username"] = data["username"].strip()
+            data["first_name"] = data["first_name"].strip()
+            data["last_name"] = data["last_name"].strip()
+
+            if data["username"] != "":
+                user_collection.update_one(
+                    {"email": usr_email},
+                    {"$set": {"username": data["username"]}}
+                )
+                request.user.username = data["username"]
+                request.user.save()
+            if data["first_name"] != "":
+                user_collection.update_one(
+                    {"email": usr_email},
+                    {"$set": {"first_name": data["first_name"]}}
+                )
+            if data["last_name"] != "":
+                user_collection.update_one(
+                    {"email": usr_email},
+                    {"$set": {"last_name": data["last_name"]}}
+                )
+
+            client.close()
+
+            return redirect("userprofiles:profile")
+    else:
+        form = forms.edit_profile_form(username_placeholder=usr["username"], first_name_placeholder=usr["first_name"], last_name_placeholder=usr["last_name"], error_class=forms.CustomError)
+
+    context["form"] = form
+
+    client.close()
+
+    return render(request=request, template_name="userprofiles/edit_profile.html", context=context)
+
+
+@login_required
+def view_workout(request: Any):
+    """
+    View a specific usr workout
+    """
+    context = {}
+
+    client = MongoClient()
+    user_collection = client["EDA-Project"]["user_profiles"]
+    usr_email = request.user.email
+    usr = user_collection.find_one({"email": usr_email})
+    client.close()
+
+    if 'id' not in request.GET:
+        return redirect("userprofiles:profile")
+
+    rendr_workout = None
+    for workout in usr['workouts']:
+        if workout['id'] == request.GET['id']:
+            print(workout)
+            rendr_workout = {
+                "date": workout["date"].strftime("%B %d, %Y"),
+                "exercises": workout["exercises"],
+            }
+            break
+
+    if not rendr_workout:
+        return redirect("userprofiles:profile")
+
+    context["workout"] = rendr_workout
+
+    return render(request=request, template_name="userprofiles/view_workout.html", context=context)

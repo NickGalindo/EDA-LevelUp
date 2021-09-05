@@ -45,7 +45,7 @@ class _Node:
         if pos == cur:
             return self.val
 
-        return self.next.__get_forward(pos, cur+1)
+        return self.next.get_forward(pos, cur+1)
 
     def insert_forward(self, val: Any, pos: int, cur: int):
         """
@@ -273,6 +273,19 @@ class LinkedList_References:
             return self.tail.get_backward(pos, self.size-1)
 
         return self.head.get_forward(pos, 0)
+
+    def to_list(self):
+        """
+        Transform linked list into python list
+        """
+        a = self.head
+        ll_list = []
+
+        for i in range(self.size):
+            ll_list.append(a.val)
+            a = a.next
+
+        return ll_list
 
     def __len__(self):
         """
