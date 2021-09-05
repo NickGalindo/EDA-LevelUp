@@ -3,9 +3,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.forms import formset_factory
 from generator.generate import generate_users
-
 from pymongo import MongoClient
 import datetime
+import time
 from . import forms
 
 # Create your views here.

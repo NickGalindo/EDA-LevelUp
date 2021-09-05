@@ -10,10 +10,12 @@ def generate_users():
     '''
     Genera usuarios con volumen. username al azar y sin repetirse
     '''
-    users = createUsers(10)
+    users = createUsers(100000)
     client = MongoClient()
     user_collection = client["EDA-Project"]["user_profiles"]
+    count = 0
     for usuario in users:
+        count += 1
         #creacion de usuario en django
         email = usuario + "@gmail.com"
         username = usuario
@@ -27,6 +29,8 @@ def generate_users():
             "profile_image": None,
             "workouts": create_workout()
         })
+        if count%1000 == 0:
+            print("Batch de usuarios creados: "+str(count))
     client.close()
 
 def prueba_user():
@@ -137,11 +141,9 @@ def createUsers(numberofusers=100000000):
     print("Creando usuarios unicos...")
     for i in range(numberofusers):
         name = _generateUsername(data["random_words"], 3)
-        while name in users:
+        while name in users and usersExist(name):
             name = _generateUsername(data["random_words"], 3)
         users.add(name)
-        if i%10000 == 0:
-            print("Batch de usuarios creados: "+str(i))
 
     return users
 
