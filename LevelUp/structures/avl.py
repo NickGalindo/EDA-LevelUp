@@ -229,26 +229,26 @@ class AVLTree:
 
         return nodelist
 
-if __name__ == "__main__": #Pruebas del funcionamiento
-    myTree = AVLTree()
-    #keys = [[10,"pe"], [6,"a"],[12,"a"],[11,"a"]]
-    keys = [[11,"a"]]
-    keys = []
-
-    for key in keys:
-        myTree.insert(key)
-
-    myTree.representation()
-    #print("max value: ", myTree.get_MaxValueNode(), end="\n\n")
-    print("max value: ", myTree.ExtractMaxValues(), end="\n\n")
-
-
-
-    #print(myTree.ExtractMaxValues())
-    #myTree.representation()
-    myTree.delete([6,"a"])
-    print("After Deletion: ")
-    myTree.representation()
-
-    #print("max value: ", myTree.get_MaxValueNode())
-    #print("min value: ", myTree.get_MinValueNode())
+#if __name__ == "__main__": #Pruebas del funcionamiento
+#    myTree = AVLTree()
+#    #keys = [[10,"pe"], [6,"a"],[12,"a"],[11,"a"]]
+#    keys = [[11,"a"]]
+#    keys = []
+#
+#    for key in keys:
+#        myTree.insert(key)
+#
+#    myTree.representation()
+#    #print("max value: ", myTree.get_MaxValueNode(), end="\n\n")
+#    print("max value: ", myTree.ExtractMaxValues(), end="\n\n")
+#
+#
+#
+#    #print(myTree.ExtractMaxValues())
+#    #myTree.representation()
+#    myTree.delete([6,"a"])
+#    print("After Deletion: ")
+#    myTree.representation()
+#
+#    #print("max value: ", myTree.get_MaxValueNode())
+#    #print("min value: ", myTree.get_MinValueNode())

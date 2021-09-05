@@ -179,22 +179,21 @@ class MaxHeap:
         
         return valueslist
 
-    
-if __name__ == "__main__":
-    heap = MaxHeap(10)
-    keys = [[635,"e"],[4523,"a"],[4523,"z"],[4523,"c"],[4523,"d"],[4523,"e"],[4523,"f"],[4523,"g"],[4523,"h"],[4523,"i"],[4523,"j"],[4523,"k"],[235,"f"],[635,"d"],[589,"a"],[806,"z"],[543,"c"],[543,"w"],[123,"t"],[243,"y"],[2357,"i"],[54,"p"],[33,"q"],[21,"l"],[111,"j"],[406,"g"]]
-    for i in keys:
-        heap.insert(i)
-    print("estado inicial")
-    print(repr(heap))
-    #print("valores maximos")
-    #print("Valor maximo es:", heap.get_max())
-    #print(heap.extract_max())
-    #print("Valor maximo es:", heap.get_max())
-    #print(heap.extract_max())
-    #print("Valor maximo es:", heap.get_max())
-    #print(heap.extract_max())
-    print("Valores extraidos:\n",heap.ExtractMaxValues(),"\n\n")
-    print("nuevo arreglo")
-    print(repr(heap))
-    print("Valor maximo es:", heap.get_max())
+#if __name__ == "__main__":
+#    heap = MaxHeap(10)
+#    keys = [[635,"e"],[4523,"a"],[4523,"z"],[4523,"c"],[4523,"d"],[4523,"e"],[4523,"f"],[4523,"g"],[4523,"h"],[4523,"i"],[4523,"j"],[4523,"k"],[235,"f"],[635,"d"],[589,"a"],[806,"z"],[543,"c"],[543,"w"],[123,"t"],[243,"y"],[2357,"i"],[54,"p"],[33,"q"],[21,"l"],[111,"j"],[406,"g"]]
+#    for i in keys:
+#        heap.insert(i)
+#    print("estado inicial")
+#    print(repr(heap))
+#    #print("valores maximos")
+#    #print("Valor maximo es:", heap.get_max())
+#    #print(heap.extract_max())
+#    #print("Valor maximo es:", heap.get_max())
+#    #print(heap.extract_max())
+#    #print("Valor maximo es:", heap.get_max())
+#    #print(heap.extract_max())
+#    print("Valores extraidos:\n",heap.ExtractMaxValues(),"\n\n")
+#    print("nuevo arreglo")
+#    print(repr(heap))
+#    print("Valor maximo es:", heap.get_max())

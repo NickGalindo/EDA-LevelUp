@@ -6,47 +6,81 @@ from typing import List
 import datetime
 import pymongo
 
-random_exercises = [
-    "pushups",
-    "pullups",
-    "deadlifts",
-    "squats",
-    "bench press",
-    "incline bench press",
-    "pulldowns",
-    "barbell rows",
-    "overhead press",
-    "lateral raises",
-    "tricep pushdowns",
-    "bicep curls",
-    "hammer curls",
-    "dips",
-    "tricep extensions",
-    "hip thrusts",
-    "bulgarian split squats",
-    "skullcrushers",
-    "concentration curls",
-    "chest fly",
-    "flat dumbbell press",
-    "incline dumbbell press",
-    "rear delt fly",
-    "simgle arm dumbbell rows",
-    "dumbbell pullovers",
-    "calve extensions",
-    "leg extensions",
-    "hamstring curls",
-    "ez bar curls",
-    "facepulls",
-    "leg press",
-    "t-bar rows"
-]
+def generate_users():
+    '''
+    Genera usuarios al azar y sin repetir con volumen
+    '''
+    usuario = " "
+    email = usuario + "@gmail.com"
+    username = usuario
+    password = usuario + "123"
+    user = User.objects.create_user(username, email, password) #create the user object
+    user.save()
+    client = MongoClient()
+    user_collection = client["EDA-Project"]["user_profiles"]
+    user_collection.insert_one({
+    "email": email,
+    "username": username,
+    "profile_image": None,
+    "workouts": create_workout()
+    })
+    client.close()
 
+def prueba_user():
+    # username email password
+    usuario = " "
+    email = usuario + "@gmail.com"
+    username = usuario
+    password = usuario + "123"
+    user = User.objects.create_user(username, email, password) #create the user object
+    user.save()
+    client = MongoClient()
+    user_collection = client["EDA-Project"]["user_profiles"]
+    user_collection.insert_one({
+    "email": email,
+    "username": username,
+    "profile_image": None,
+    "workouts": create_workout()
+    })
+    client.close()
+
+def create_workout():
+    '''
+    Crea una lista con el contenido de workouts
+    '''
+    data_file = open("generator/data.json",)
+    data = json.load(data_file)
+    exercises_list = []
+    name_list = []
+    for j in range(random.randint(1,10)):
+        name = random.choice(data["random_exercises"])
+        while name in name_list:
+            name = random.choice(data["random_exercises"])
+        name_list.append(name)
+
+        exercises_list.append({
+                    "name": name,
+                    "sets": random.randint(1,10),
+                    "reps": random.randint(1,50),
+                    "weight": random.randint(1,100)
+            })
+
+    workouts = [
+        {
+            "date": datetime.datetime.today(),
+            "exercises":  exercises_list
+        }
+    ]
+
+    return workouts
 
 # list_users = [[email, volumen],[],...]
 def insert_volume():
     '''
     Esta funcion genera volumenes para todos los usuarios de forma aleatoria
     '''
+    data_file = open("generator/data.json",)
+    data = json.load(data_file)
     client = MongoClient()
     db = client['EDA-Project']
     coleccion = db['user_profiles']
@@ -56,16 +90,16 @@ def insert_volume():
         exercises_list = []
         name_list = []
         for j in range(random.randint(2,10)):
-            name = random.choice(random_exercises)
+            name = random.choice(data["random_exercises"])
             while name in name_list:
-                name = random.choice(random_exercises)
+                name = random.choice(data["random_exercises"])
             name_list.append(name)
 
             exercises_list.append({
                         "name": name,
                         "sets": random.randint(1,10),
-                        "reps": random.randint(1,200),
-                        "weight": random.randint(1,250)
+                        "reps": random.randint(1,50),
+                        "weight": random.randint(1,100)
                 })
 
         workouts = [
@@ -75,6 +109,7 @@ def insert_volume():
             }
         ]
         coleccion.update_one({"email":i["email"]},{"$set": {"workouts":workouts}})
+    client.close()
 
 # Generate Uniques
 def _generateUsername(words: List[str], size: int, cnt: int=1):
@@ -94,41 +129,16 @@ def createUsers():
     data_file = open("generator/data.json",)
     data = json.load(data_file)
 
-    usrs = set()
+    users = set()
     bulk_insert = []
 
     print("Creando usuarios unicos...")
     for i in range(100000000):
         name = _generateUsername(data["random_words"], 3)
-        while name in usrs:
+        while name in users:
             name = _generateUsername(data["random_words"], 3)
 
-        usrs.add(name)
-        #temp_usr = User.objects.create_user(username=name, password="default_123")
-
-        bulk_insert.append({
-            #"_id": temp_usr.id,
-            "username": name,
-            "workouts": [
-                {
-                    "date": datetime.date(2021, 1, 1),
-                    "exercises": [
-                        {
-                            "name": "pushups",
-                            "sets": 5,
-                            "reps": 10,
-                            "rpm": 9
-                        },
-                        {
-                            "name": "pullups",
-                            "sets": 5,
-                            "reps": 5,
-                            "rpm": 8
-                        }
-                    ]
-                }
-            ]
-        })
+        users.add(name)
 
         if i%10000 == 0:
             print("Batch de usuarios creados: "+str(i))
@@ -148,7 +158,7 @@ def createUsers():
     })
     print("Se crearon "+str(len(bulk_insert))+" usuarios")
     """
-    return bulk_insert
+    return users
 
 def usersExist():
     """

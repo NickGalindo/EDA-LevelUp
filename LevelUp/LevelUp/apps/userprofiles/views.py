@@ -2,6 +2,7 @@ from typing import List, Dict, Any
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.forms import formset_factory
+from generator.generate import insert_volume, prueba_user
 
 from pymongo import MongoClient
 import datetime
@@ -117,6 +118,8 @@ def generate(request: Any):
     '''
     Funcion generadora de usuarios
     '''
-    print("Hola mundo")
+    insert_volume()
+    #prueba_user()
+    print("Insert_volume ejecutado")
 
     return redirect("userprofiles:profile")
