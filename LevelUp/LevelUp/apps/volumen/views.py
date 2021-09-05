@@ -4,6 +4,7 @@ from django.shortcuts import render
 from typing import List, Any
 from pymongo import MongoClient
 import random
+import json
 from structures.hash import HashTable
 
 
@@ -11,7 +12,7 @@ def exercises(n,user):
      mongoClient = MongoClient('localhost',27017)
      db = mongoClient['EDA-Project']['user_profiles']
      myHashExercises = HashTable(n)
-     arr_workouts = db.find_one({'email': user.email})['workouts']
+     arr_workouts = db.find_one({'username': user})['workouts']
      total = 0
      print(arr_workouts)
 
@@ -20,15 +21,30 @@ def exercises(n,user):
              name = exercise['name']
              times = exercise['sets']*exercise['reps']
              total += times
-             #print(name,times)
+             
 
              if myHashExercises.hasKey(name):
                  current = myHashExercises.get(name)+times
                  myHashExercises.set(name,current)
              else:
                  myHashExercises.set(name,times)
+         for i in myHashExercises.A:
+             print(i)
 
      return (myHashExercises,total)
+
+
+def cantidadEjercicios(data, hashedExercises,total):
+    #lista de tuplas de ejercicio y su procentaje de veces
+    l = []
+
+    for exercise in data:
+        if hashedExercises.hasKey(exercise):
+            porcentaje = round( hashedExercises.get(exercise)/total*100, 2)
+            l.append( (exercise,porcentaje) )
+    
+    return l
+
 
 
 
@@ -38,6 +54,9 @@ def VolumeHistory(request : Any):
 
     mongoClient = MongoClient('localhost',27017)
     db = mongoClient['EDA-Project']['auth_user']
+
+    data_file = open("generator/data.json",)
+    data = json.load(data_file)
 
     #arreglo con tuplas (nombre usuario, volúmenenes)
     key_values = []
@@ -55,12 +74,15 @@ def VolumeHistory(request : Any):
     for user in key_values:
         myHash.set(user[0],user[1])
 
-    hashedExercises,total =exercises(15,request.user)
-    print(hashedExercises,total)
+    #hashedExercises,total =exercises(15,request.user)
+    hashedExercises,total =exercises(15,"dave herrera")
+    
+    #print(hashedExercises,total)
 
-    l = []
+    list_exercices  = cantidadEjercicios(data['random_exercises'],hashedExercises,total)
 
-    context = {'title': 'Volume History', 'volumes': myHash.get(str(request.user)), 'exercises': hashedExercises, 'total': total}
+    print(list_exercices)
+    context = {'title': 'Volume History', 'volumes': myHash.get(str(request.user)), 'exercises': list_exercices, 'total': total}
     
     return render(request=request, template_name='volume/volume.html', context=context)
 

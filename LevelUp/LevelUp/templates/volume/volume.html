@@ -64,7 +64,7 @@ Highcharts.chart('container', {
 });
 
 
-
+console.log("{{exercises.1.0}}")
 Highcharts.chart('Piecontainer', {
     chart: {
         plotBackgroundColor: null,
@@ -94,27 +94,27 @@ Highcharts.chart('Piecontainer', {
         }
     },
     series: [{
-        name: 'Exercise',
+        name: 'Porcentaje',
         colorByPoint: true,
         data: [{
-            name: 'Chrome',
-            y: 12.5,
+            name: "{{exercises.0.0}}",
+            y: {{exercises.0.1}},
             sliced: true,
             selected: true
         }, {
-            name: 'Internet Explorer',
-            y: 11.84
+            name: "{{exercises.1.0}}",
+            y: {{exercises.1.1}}
         }, {
-            name: 'Firefox',
-            y: 10.85
+            name: "{{exercises.2.0}}",
+            y: {{exercises.2.1}}
         }, {
-            name: 'Edge',
-            y: 4.67
+            name: "{{exercises.0.0}}",
+            y: {{exercises.2.1}}
         }, {
-            name: 'Safari',
+            name: "{{exercises.0.0}}",
             y: 4.18
         }, {
-            name: 'Other',
+            name: "{{exercises.0.0}}",
             y: 7.05
         }]
     }]
