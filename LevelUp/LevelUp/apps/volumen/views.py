@@ -6,14 +6,28 @@ from pymongo import MongoClient
 import random
 from structures.hash import HashTable
 
-def exercises():
+
+def exercises(n,user):
      mongoClient = MongoClient('localhost',27017)
      db = mongoClient['EDA-Project']['user_profiles']
 
-     myHash = HashTable(15)
-     for user_info in db.find({},{'username':1}):
-         if user_info['username'] == str(request.user):
-             myHash.set()
+     myHashExercises = HashTable(n)
+     arr_workouts = db.find_one({'email': user.email})['workouts']
+     print(arr_workouts)
+
+     for workout in arr_workouts:
+         for exercise in workout['exercises']:
+             name = exercise['name']
+             times = exercise['sets']*exercise['reps']
+             #print(name,times)
+
+             if myHashExercises.hasKey(name):
+                 current = myHashExercises.get(name)+times
+                 myHashExercises.set(name,current)
+             else:
+                 myHashExercises.set(name,times)
+     return myHashExercises
+
 
 
 
@@ -39,10 +53,8 @@ def VolumeHistory(request : Any):
     for user in key_values:
         myHash.set(user[0],user[1])
 
-    '''for i in myHash.A:
-        print(i)'''
+    hashedExercises =exercises(15,request.user)
 
-    exercises()
     context = {'title': 'Volume History', 'volumes': myHash.get(str(request.user))}
     
     return render(request=request, template_name='volume/volume.html', context=context)
