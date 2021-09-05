@@ -8,7 +8,6 @@ from structures.hash import HashTable
 
 def VolumeHistory(request : Any):
 
-    context = {'title': 'Volume History'}
 
     mongoClient = MongoClient('localhost',27017)
     db = mongoClient['EDA-Project']['auth_user']
@@ -29,9 +28,10 @@ def VolumeHistory(request : Any):
     for user in key_values:
         myHash.set(user[0],user[1])
 
-    for i in myHash.A:
-        print(i)
+    '''for i in myHash.A:
+        print(i)'''
 
+    context = {'title': 'Volume History', 'volumes': myHash.get(str(request.user))}
     
     return render(request=request, template_name='volume/volume.html', context=context)
 
