@@ -1,9 +1,20 @@
+from django.http import request
 from django.shortcuts import render
 
 from typing import List, Any
 from pymongo import MongoClient
 import random
 from structures.hash import HashTable
+
+def exercises():
+     mongoClient = MongoClient('localhost',27017)
+     db = mongoClient['EDA-Project']['user_profiles']
+
+     myHash = HashTable(15)
+     for user_info in db.find({},{'username':1}):
+         if user_info['username'] == str(request.user):
+             myHash.set()
+
 
 
 def VolumeHistory(request : Any):
@@ -31,6 +42,7 @@ def VolumeHistory(request : Any):
     '''for i in myHash.A:
         print(i)'''
 
+    exercises()
     context = {'title': 'Volume History', 'volumes': myHash.get(str(request.user))}
     
     return render(request=request, template_name='volume/volume.html', context=context)

@@ -6,8 +6,9 @@
 {% endblock script %}
 
 {% block content %}
-<div class= "container-fluid">
-  <div class = "row">
+<h1 style="text-align: center;margin: 3%">Your stats</h1>
+<div class= "container-fluid" style="width: 60%;margin-top: 2%;">
+  <div class = "row" style="align-self: flex-end;">
 <figure class="highcharts-figure">
   <div id="container">
   </div>
@@ -15,6 +16,17 @@
 
 </figure>
 </div>
+
+<div class= "container-fluid" style="width: 60%;margin-top: 3%;">
+  <div class = "row" style="align-self: flex-end;">
+<figure class="highcharts-figure">
+  <div id="Piecontainer">
+  </div>
+  </div>
+
+</figure>
+</div>
+
 <script type="application/javascript"> 
 Highcharts.chart('container', {
     chart: {
@@ -31,7 +43,7 @@ Highcharts.chart('container', {
     },
     yAxis: {
         title: {
-            text: 'Volume (m)'
+            text: 'Volume (Kg)'
         }
     },
     plotOptions: {
@@ -48,6 +60,62 @@ Highcharts.chart('container', {
     }, {
         name: 'Your goal',
         data: [100,150, 500, 85, 99, 152, 300, 106, 132, 103, 66, 48]
+    }]
+});
+
+//Pie container
+Highcharts.chart('Piecontainer', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: 'Your monthly exercises'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: false
+            },
+            showInLegend: true
+        }
+    },
+    series: [{
+        name: 'Exercise',
+        colorByPoint: true,
+        data: [{
+            name: 'Chrome',
+            y: 61.41,
+            sliced: true,
+            selected: true
+        }, {
+            name: 'Internet Explorer',
+            y: 11.84
+        }, {
+            name: 'Firefox',
+            y: 10.85
+        }, {
+            name: 'Edge',
+            y: 4.67
+        }, {
+            name: 'Safari',
+            y: 4.18
+        }, {
+            name: 'Other',
+            y: 7.05
+        }]
     }]
 });
     
