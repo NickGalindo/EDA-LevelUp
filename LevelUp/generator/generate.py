@@ -33,51 +33,33 @@ def generate_users():
             print("Batch de usuarios creados: "+str(count))
     client.close()
 
-def prueba_user():
-    # username email password
-    usuario = " "
-    email = usuario + "@gmail.com"
-    username = usuario
-    password = usuario + "123"
-    user = User.objects.create_user(username, email, password) #create the user object
-    user.save()
-    client = MongoClient()
-    user_collection = client["EDA-Project"]["user_profiles"]
-    user_collection.insert_one({
-    "email": email,
-    "username": username,
-    "profile_image": None,
-    "workouts": create_workout()
-    })
-    client.close()
-
 def create_workout():
     '''
     Crea una lista con el contenido de workouts
     '''
     data_file = open("generator/data.json",)
     data = json.load(data_file)
-    exercises_list = []
-    name_list = []
-    for j in range(random.randint(1,10)):
-        name = random.choice(data["random_exercises"])
-        while name in name_list:
+    workouts = []
+    for i in range(15):
+        exercises_list = []
+        name_list = []
+        for j in range(random.randint(1,10)):
             name = random.choice(data["random_exercises"])
-        name_list.append(name)
+            while name in name_list:
+                name = random.choice(data["random_exercises"])
+            name_list.append(name)
 
-        exercises_list.append({
-                    "name": name,
-                    "sets": random.randint(1,10),
-                    "reps": random.randint(1,50),
-                    "weight": random.randint(1,100)
+            exercises_list.append({
+                        "name": name,
+                        "sets": random.randint(1,10),
+                        "reps": random.randint(1,50),
+                        "weight": random.randint(1,100)
+                })
+
+        workouts.append({
+                "date": datetime.datetime.today(),
+                "exercises": exercises_list
             })
-
-    workouts = [
-        {
-            "date": datetime.datetime.today(),
-            "exercises": exercises_list
-        }
-    ]
 
     return workouts
 
@@ -129,7 +111,7 @@ def _generateUsername(words: List[str], size: int, cnt: int=1):
     return random.choice(words) + ("_"+_generateUsername(words, size, cnt=cnt+1) if cnt != size else "")
 
 # Generate multiple users with some data for them
-def createUsers(numberofusers=100000000):
+def createUsers(numberofusers = 10000):
     """
     Create the users and add them into djangoooo
     """
