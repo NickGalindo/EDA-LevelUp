@@ -10,15 +10,16 @@ from structures.hash import HashTable
 def exercises(n,user):
      mongoClient = MongoClient('localhost',27017)
      db = mongoClient['EDA-Project']['user_profiles']
-
      myHashExercises = HashTable(n)
      arr_workouts = db.find_one({'email': user.email})['workouts']
+     total = 0
      print(arr_workouts)
 
      for workout in arr_workouts:
          for exercise in workout['exercises']:
              name = exercise['name']
              times = exercise['sets']*exercise['reps']
+             total += times
              #print(name,times)
 
              if myHashExercises.hasKey(name):
@@ -26,7 +27,8 @@ def exercises(n,user):
                  myHashExercises.set(name,current)
              else:
                  myHashExercises.set(name,times)
-     return myHashExercises
+
+     return (myHashExercises,total)
 
 
 
@@ -53,9 +55,12 @@ def VolumeHistory(request : Any):
     for user in key_values:
         myHash.set(user[0],user[1])
 
-    hashedExercises =exercises(15,request.user)
+    hashedExercises,total =exercises(15,request.user)
+    print(hashedExercises,total)
 
-    context = {'title': 'Volume History', 'volumes': myHash.get(str(request.user))}
+    l = []
+
+    context = {'title': 'Volume History', 'volumes': myHash.get(str(request.user)), 'exercises': hashedExercises, 'total': total}
     
     return render(request=request, template_name='volume/volume.html', context=context)
 
