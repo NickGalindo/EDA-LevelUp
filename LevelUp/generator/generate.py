@@ -5,12 +5,13 @@ from pymongo import MongoClient
 from typing import List
 import datetime
 import pymongo
+import uuid
 
 def generate_users():
     '''
     Genera usuarios con volumen. username al azar y sin repetirse
     '''
-    users = createUsers(100000)
+    users = createUsers(2000)
     client = MongoClient()
     user_collection = client["EDA-Project"]["user_profiles"]
     count = 0
@@ -26,6 +27,8 @@ def generate_users():
         user_collection.insert_one({
             "email": email,
             "username": username,
+            "first_name": "",
+            "last_name": "",
             "profile_image": None,
             "workouts": create_workout()
         })
@@ -43,7 +46,7 @@ def create_workout():
     for i in range(15):
         exercises_list = []
         name_list = []
-        for j in range(random.randint(1,10)):
+        for j in range(random.randint(5,10)):
             name = random.choice(data["random_exercises"])
             while name in name_list:
                 name = random.choice(data["random_exercises"])
@@ -57,6 +60,7 @@ def create_workout():
                 })
 
         workouts.append({
+                "id": str(uuid.uuid4()).replace("-", ""),
                 "date": datetime.datetime.today(),
                 "exercises": exercises_list
             })
