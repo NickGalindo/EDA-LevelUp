@@ -11,7 +11,7 @@ def generate_users():
     '''
     Genera usuarios con volumen. username al azar y sin repetirse
     '''
-    users = createUsers(2000)
+    users = createUsers(100000)
     client = MongoClient()
     user_collection = client["EDA-Project"]["user_profiles"]
     count = 0

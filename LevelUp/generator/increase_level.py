@@ -51,7 +51,7 @@ def use_structures(max_users = 10000, structure = "both", number_promote = 100, 
 
     if max_users :
         users_volumes = extract_users(max_users)
-        print("\nNumero de usuarios manejados: ", max_users, end="")
+        print("\nMaximo numero de usuarios manejados: ", max_users, end="")
     else:
         users_volumes = extract_users()
     list_promote_users_avl = []
