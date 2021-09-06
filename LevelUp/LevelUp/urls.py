@@ -25,5 +25,6 @@ urlpatterns = [
     path('auth/', include('LevelUp.apps.authentication.urls', namespace='authentication')),
     path('trials/', include('LevelUp.apps.trials.urls', namespace='trials')),
     path('users/', include('LevelUp.apps.userprofiles.urls', namespace='userprofiles')),
+    path('volumen/', include('LevelUp.apps.volumen.urls', namespace='volumen')),
     path('inclv/', include('LevelUp.apps.increaseLevel.urls', namespace='increaseLevel'))
 ]

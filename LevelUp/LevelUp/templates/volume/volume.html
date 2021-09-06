@@ -1,17 +1,137 @@
 {% extends 'basetemplate.html' %}
+
+
+{% block script %}
+<script src="https://code.highcharts.com/highcharts.src.js"></script>
+{% endblock script %}
+
 {% block content %}
-<br>
-<legend class="border-bottom mb-4">Volumen</legend>
-<div class="content-section">
-  {% if status == "Success" %}
-    <div class = "alert alert-success" role="alert">
-      Volume Protocol Trialed successfully
-    </div>
-  {% endif %}
-  {% if status == "Failed" %}
-    <div class = "alert alert-danger" role="alert">
-      Volume Protocol Trial Failed
-    </div>
-  {% endif %}
+<h1 style="text-align: center;margin: 3%">Your stats</h1>
+<div class= "container-fluid" style="width: 60%;margin-top: 2%;">
+  <div class = "row" style="align-self: flex-end;">
+<figure class="highcharts-figure">
+  <div id="container">
+  </div>
+  </div>
+
+</figure>
 </div>
+
+<div class= "container-fluid" style="width: 60%;margin-top: 3%;">
+  <div class = "row" style="align-self: flex-end;">
+<figure class="highcharts-figure">
+  <div id="Piecontainer">
+  </div>
+  </div>
+
+</figure>
+</div>
+
+<script type="application/javascript"> 
+Highcharts.chart('container', {
+    chart: {
+        type: 'line'
+    },
+    title: {
+        text: 'Your last 30 days'
+    },
+    subtitle: {
+        text: ''
+    },
+    xAxis: {
+        categories:Array(30)
+    },
+    yAxis: {
+        title: {
+            text: 'Volume '
+        }
+    },
+    plotOptions: {
+        line: {
+            dataLabels: {
+                enabled: true
+            },
+            enableMouseTracking: false
+        }
+    },
+    series: [{
+        name: 'You',
+        data: {{volumes}}
+    }, {
+        name: 'Your level goal',
+        data: [71800,41520, 85100, 98885, 7959, 21752, 61300, 71106, 25132, 91003, 2866, 7748]
+    }]
+});
+
+console.log("{{exercises.0.1}}")
+
+Highcharts.chart('Piecontainer', {
+    chart: {
+        plotBackgroundColor: null,
+        plotBorderWidth: null,
+        plotShadow: false,
+        type: 'pie'
+    },
+    title: {
+        text: 'Your favorite exercises'
+    },
+    tooltip: {
+        pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+    },
+    accessibility: {
+        point: {
+            valueSuffix: '%'
+        }
+    },
+    plotOptions: {
+        pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+                enabled: false
+            },
+            showInLegend: true
+        }
+    },
+
+    series: [{
+        name: 'Porcentaje',
+        colorByPoint: true,
+        data: [
+            {
+            name :"{{exercises.0.0}}",
+            y : parseFloat("{{exercises.0.1}}")
+            },
+            {
+            name :"{{exercises.1.0}}",
+            y : parseFloat("{{exercises.1.1}}")
+            },
+            {
+            name :"{{exercises.2.0}}",
+            y : parseFloat("{{exercises.2.1}}")
+            },
+            {
+            name :"{{exercises.3.0}}",
+            y : parseFloat("{{exercises.3.1}}")
+            },
+            {
+            name :"{{exercises.4.0}}",
+            y : parseFloat("{{exercises.4.1}}")
+            },
+            {
+            name :"{{exercises.5.0}}",
+            y : parseFloat("{{exercises.5.1}}")
+            },
+            {
+            name :"{{exercises.6.0}}",
+            y : parseFloat("{{exercises.6.1}}")
+            },
+        ]
+    }]
+});
+    
+
+</script>
+
+
 {% endblock content %}
