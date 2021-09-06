@@ -5,7 +5,8 @@ from django.contrib.auth.models import User
 from django.contrib import auth
 
 from pymongo import MongoClient
-
+from structures.disjoint_set import DisjointSet
+from structures.adjacency_list import AdjacencyList
 from . import forms
 
 #registration site
@@ -35,6 +36,10 @@ def sign_up(request: Any):
             #Add the user to the mongo database profile with default data
             client =  MongoClient()
             user_collection = client["EDA-Project"]["user_profiles"]
+            disjoint_set_collection = client["EDA-Project"]["disjoint_set"]
+            # adjacency_list_collection = client["EDA-Project"]["adjacency_list"]
+            user_graph_collection = client["EDA-Project"]["user_graph"]
+
             user_collection.insert_one({
                 "email": data["email"],
                 "username": data["username"],
@@ -43,8 +48,24 @@ def sign_up(request: Any):
                 "profile_image": None,
                 "workouts": []
             })
-            client.close()
 
+            # adj_list = AdjacencyList()
+            # adj_list.mongo_deserialize(adjacency_list_collection)
+            dj_set = DisjointSet()
+            dj_set.mongo_deserialize(disjoint_set_collection)
+            user_graph = AdjacencyList()
+            user_graph.mongo_deserialize(user_graph_collection)
+
+            dj_set.add(data["username"])
+            dj_set.merge(data["username"], "Beginner")
+
+            user_graph.add_node(data["email"])
+            user_graph.connect(data["email"], "Beginner")
+
+            dj_set.mongo_serialize(disjoint_set_collection)
+            user_graph.mongo_serialize(user_graph_collection)
+
+            client.close()
             return redirect("userprofiles:profile")
     else:
         #If the form isn't valid then fill form with errors
