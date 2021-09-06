@@ -97,7 +97,7 @@ def VolumeHistory(request : Any):
         y los valores son los números de veces que los ha hecho
     '''
 
-    hashedExercises,total =exercises(15,str(request.user))
+    hashedExercises,total =exercises(40,str(request.user))
     
     #lsita de tuplas (nombre ejercicio, porcentaje veces con respecto al total)
     list_exercices  = cantidadEjercicios(data['random_exercises'],hashedExercises,total)
