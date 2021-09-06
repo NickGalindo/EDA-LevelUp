@@ -1,4 +1,6 @@
 from django.contrib.auth.models import User
+from structures.disjoint_set import DisjointSet
+from structures.adjacency_list import AdjacencyList
 import json
 import random
 from pymongo import MongoClient
@@ -14,6 +16,11 @@ def generate_users():
     users = createUsers(100000)
     client = MongoClient()
     user_collection = client["EDA-Project"]["user_profiles"]
+    disjoint_set_collection = client["EDA-Project"]["disjoint_set"]
+    # adjacency_list_collection = client["EDA-Project"]["adjacency_list"]
+    user_graph_collection = client["EDA-Project"]["user_graph"]
+    dj_set = DisjointSet()
+    user_graph = AdjacencyList()
     count = 0
     for usuario in users:
         count += 1
@@ -32,6 +39,16 @@ def generate_users():
             "profile_image": None,
             "workouts": create_workout()
         })
+        dj_set.mongo_deserialize(disjoint_set_collection)
+        user_graph.mongo_deserialize(user_graph_collection)
+        dj_set.add(username)
+        dj_set.merge(username, "Beginner")
+
+        user_graph.add_node(email)
+        user_graph.connect(email, "Beginner")
+        dj_set.mongo_serialize(disjoint_set_collection)
+        user_graph.mongo_serialize(user_graph_collection)
+
         if count%1000 == 0:
             print("Batch de usuarios creados: "+str(count))
     client.close()

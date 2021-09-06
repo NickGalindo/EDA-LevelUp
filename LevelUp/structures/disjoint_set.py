@@ -83,7 +83,6 @@ class DisjointSet:
         Convert a mongo saved dict to the sturcture
         :param disjoint_set_collection: the mongo collection to load the disjoint set from
         """
-        print(self.parent)
         for doc in disjoint_set_collection.find({}):
             self.parent[doc["node_id"]] = doc["parent"]
             self.rank[doc["node_id"]] = doc["rank"]
