@@ -13,7 +13,7 @@ def generate_users():
     '''
     Genera usuarios con volumen. username al azar y sin repetirse
     '''
-    users = createUsers(100000)
+    users = createUsers(1000)
     client = MongoClient()
     user_collection = client["EDA-Project"]["user_profiles"]
     disjoint_set_collection = client["EDA-Project"]["disjoint_set"]
@@ -22,6 +22,8 @@ def generate_users():
     dj_set = DisjointSet()
     user_graph = AdjacencyList()
     count = 0
+    dj_set.mongo_deserialize(disjoint_set_collection)
+    user_graph.mongo_deserialize(user_graph_collection)
     for usuario in users:
         count += 1
         #creacion de usuario en django
@@ -39,18 +41,16 @@ def generate_users():
             "profile_image": None,
             "workouts": create_workout()
         })
-        dj_set.mongo_deserialize(disjoint_set_collection)
-        user_graph.mongo_deserialize(user_graph_collection)
         dj_set.add(username)
         dj_set.merge(username, "Beginner")
 
         user_graph.add_node(email)
         user_graph.connect(email, "Beginner")
-        dj_set.mongo_serialize(disjoint_set_collection)
-        user_graph.mongo_serialize(user_graph_collection)
 
-        if count%1000 == 0:
+        if count%10 == 0:
             print("Batch de usuarios creados: "+str(count))
+    dj_set.mongo_serialize(disjoint_set_collection)
+    user_graph.mongo_serialize(user_graph_collection)
     client.close()
 
 def create_workout():
