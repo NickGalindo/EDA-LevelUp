@@ -59,7 +59,7 @@ def runVolumeProtocol():
                 QUERY = int(input("Which position (index) would you like to retrieve?\n"))
                 size = run.linkedlist_size(linked_list)
                 if QUERY < 0 or QUERY >= size:
-                    raise Exeption()
+                    raise Exception()
             except:
                 print("Invalid input, please try again")
                 continue
@@ -97,7 +97,7 @@ def runVolumeProtocol():
             try:
                 QUERY = int(input("Which position (index) would you like to delete?\n"))
                 if QUERY < 0 or QUERY >= run.linkedlist_size(linked_list):
-                    raise Exeption()
+                    raise Exception()
             except:
                 print("Invalid input, please try again")
                 continue

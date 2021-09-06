@@ -1,0 +1,48 @@
+{% extends 'basetemplate_loggedin.html' %}
+{% block content %}
+<br>
+<legend class="border-bottom mb-4 text-center"><h1 class="text-muted">Profile</h1></legend>
+
+<form method="POST" action="" class="container d-flex justify-content-center">
+  {% csrf_token %}
+  <div class="col-5 card shadow p-3">
+    <div class="container-fluid d-flex justify-content-end">
+      <button style="padding: 0px; margin: 0px; border: none; background: none; color: none;" type="submit" value="Edit Profile"><i class="fas fa-check-circle text-success" style="font-size: 20px;"></i></button>
+    </div>
+    <div class="container-fluid d-flex align-items-center justify-content-center mt-5">
+      <div class="d-flex align-items-center justify-content-center" style="width:30%; aspect-ratio: 1/1;">
+        <i class="fas fa-user" style="font-size: 200px;"></i>
+      </div>
+    </div>
+    <div class="container-fluid d-flex justify-content-center">
+      <div class="content-section">
+        <div class="form-group mb-2 mt-4">
+          {{ form.username.errors }}
+          <div class="input-group">
+            {{ form.username }}
+          </div>
+        </div>
+        <div class="form-group mb-0">
+          {{ form.first_name.errors }}
+          <div class="input-group">
+            {{ form.first_name }}
+          </div>
+        </div>
+        <div class="form-group mb-5">
+          {{ form.last_name.errors }}
+          <div class="input-group">
+            {{ form.last_name }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-muted mt-5">
+      Last seen: {{ user.last_login }}
+    </div>
+    <div class="text-muted">
+      Joined: {{ user.date_joined }}
+    </div>
+  </div>
+</form>
+
+{% endblock content %}

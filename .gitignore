@@ -8,3 +8,4 @@ dummy_word.txt
 *.out
 *.inp
 *.vim
+*migrations*

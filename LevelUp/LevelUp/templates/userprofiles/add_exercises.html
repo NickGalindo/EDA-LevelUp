@@ -1,0 +1,78 @@
+{% extends 'basetemplate_loggedin.html' %}
+
+{% block content %}
+
+<br>
+<legend class="border-bottom mb-4 text-center">Add Exercises<br>{{ workout_date }}</legend>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-xl-8">
+      <div class="content-section">
+        <form method="POST" action="">
+          {% csrf_token %}
+          {{ formset.management_form }}
+          {% for form in formset %}
+            <div class="card shadow mb-3 px-3 pt-3">
+              <div class="text-center">
+                <h3>Exercise</h3>
+              </div>
+              <div class="form-group mb-2">
+                <label class="control-label" for="{{ form.name.id_for_label }}">
+                  Name
+                </label>
+                {{ form.name.errors }}
+                <div class="input-group">
+                  <div class="input-group-text">
+                    <i class="fas fa-walking" style="color:#7C2DAD"></i>
+                  </div>
+                  {{ form.name }}
+                </div>
+              </div>
+              <div class="form-group mb-2">
+                <label class="control-label" for="{{ form.sets.id_for_label }}">
+                  Sets
+                </label>
+                {{ form.sets.errors }}
+                <div class="input-group">
+                  <div class="input-group-text">
+                    <i class="fas fa-list-ol" style="color:#7C2DAD"></i>
+                  </div>
+                  {{ form.sets }}
+                </div>
+              </div>
+              <div class="form-group mb-2">
+                <label class="control-label" for="{{ form.reps.id_for_label }}">
+                  Reps
+                </label>
+                {{ form.reps.errors }}
+                <div class="input-group">
+                  <div class="input-group-text">
+                    <i class="fas fa-list-ol" style="color:#7C2DAD"></i>
+                  </div>
+                  {{ form.reps }}
+                </div>
+              </div>
+              <div class="form-group mb-3">
+                <label class="control-label" for="{{ form.weight.id_for_label }}">
+                  Weight
+                </label>
+                {{ form.weight.errors }}
+                <div class="input-group">
+                  <div class="input-group-text">
+                    <i class="fas fa-dumbbell" style="color:#7C2DAD"></i>
+                  </div>
+                  {{ form.weight }}
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+          <div class="d-flex justify-content-center">
+            <input class="btn btn-outline-themed-primary mb-3" type="submit" value="Add Exercises">
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}
