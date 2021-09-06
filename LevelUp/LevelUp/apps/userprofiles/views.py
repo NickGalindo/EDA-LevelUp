@@ -2,13 +2,14 @@ from typing import List, Dict, Any
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.forms import formset_factory
-
-import uuid
+from generator.generate import generate_users
 from pymongo import MongoClient
 from structures.linked_list import LinkedList_References
 from structures.disjoint_set import DisjointSet
 from structures.adjacency_list import AdjacencyList
 import datetime
+import time
+import uuid
 from . import forms
 
 # Create your views here.
@@ -144,7 +145,6 @@ def add_exercises(request: Any):
 
     return render(request=request, template_name="userprofiles/add_exercises.html", context=context)
 
-
 @login_required
 def edit_profile(request: Any):
     """
@@ -229,3 +229,13 @@ def view_workout(request: Any):
     context["workout"] = rendr_workout
 
     return render(request=request, template_name="userprofiles/view_workout.html", context=context)
+
+@login_required
+def generate(request: Any):
+    '''
+    Funcion generadora de usuarios
+    '''
+    generate_users()
+    print("Usuarios generados :)")
+
+    return redirect("userprofiles:profile")
