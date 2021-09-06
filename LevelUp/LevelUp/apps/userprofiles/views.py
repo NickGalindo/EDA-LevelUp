@@ -6,6 +6,8 @@ from django.forms import formset_factory
 import uuid
 from pymongo import MongoClient
 from structures.linked_list import LinkedList_References
+from structures.disjoint_set import DisjointSet
+from structures.adjacency_list import AdjacencyList
 import datetime
 from . import forms
 
@@ -20,6 +22,8 @@ def profile(request: Any):
 
     client = MongoClient()
     user_collection = client["EDA-Project"]["user_profiles"]
+    user_graph_collection = client["EDA-Project"]["user_graph"]
+
     usr_email = request.user.email
     usr = user_collection.find_one({"email": usr_email})
 
@@ -30,6 +34,18 @@ def profile(request: Any):
                 ll_list.remove(int(request.GET['rmw']))
                 usr["workouts"] = ll_list.to_list()
                 user_collection.update_one({"email": usr_email}, {"$set": {"workouts": usr["workouts"]}})
+
+    user_graph = AdjacencyList()
+    user_graph.mongo_deserialize(user_graph_collection)
+
+    connections = 0
+    for node in user_graph.get_adjacent(usr_email):
+        aux = len(user_graph.get_adjacent(node))
+        if aux:
+            connections += aux-1
+
+    context["nodes"] = len(user_graph.get_adjacent(usr_email))
+    context["connections"] = connections
 
     client.close()
 
