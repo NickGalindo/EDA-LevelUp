@@ -9,3 +9,4 @@ dummy_word.txt
 *.inp
 *.vim
 *migrations*
+*highchart*
