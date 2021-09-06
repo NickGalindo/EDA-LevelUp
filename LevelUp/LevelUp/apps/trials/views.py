@@ -2,7 +2,7 @@ from typing import List, Dict, Any
 import subprocess
 from django.shortcuts import render, redirect
 
-from generator.generate import createUsers, createSpecialUsers, specialUsersExist, usersExist
+from generator.generate_old import createUsers, createSpecialUsers, specialUsersExist, usersExist
 from generator.queue_365 import queue_workouts
 from generator.pyramid_stack import generate_workout
 
