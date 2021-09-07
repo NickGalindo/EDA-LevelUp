@@ -47,7 +47,7 @@ def extract_users(max_users = None):
 
 
 #number_promote << min_users_req
-def use_structures(max_users = 10000, structure = "both", number_promote = 100, min_users_req = 1000):
+def use_structures(max_users = None, structure = "both", number_promote = 100, min_users_req = 200):
 
     if max_users :
         users_volumes = extract_users(max_users)
